@@ -1267,3 +1267,25 @@ font-size:18px;
 }
 
 }
+/* Logo KKN Footer */
+.footer-kkn{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:16px;
+    margin-left:-16px;   /* geser sedikit ke kiri */
+}
+
+.footer-kkn img{
+    width:50px;
+    height:50px;
+    object-fit:contain;
+    flex-shrink:0;
+}
+
+.footer-kkn span{
+    color:#fff;
+    font-size:16px;
+    font-weight:700;   /* sama tebal dengan judul */
+    line-height:1.4;
+}
