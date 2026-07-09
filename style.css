@@ -1268,24 +1268,26 @@ font-size:18px;
 
 }
 /* Logo KKN Footer */
+/* Logo KKN Footer */
 .footer-kkn{
     display:flex;
     align-items:center;
-    gap:14px;
-    margin-top:16px;
-    margin-left:-16px;   /* geser sedikit ke kiri */
+    gap:12px;
+    margin-top:18px;
+    margin-left:-10px;
 }
 
 .footer-kkn img{
-    width:50px;
-    height:50px;
+    width:42px;
+    height:42px;
     object-fit:contain;
     flex-shrink:0;
 }
 
 .footer-kkn span{
-    color:#fff;
-    font-size:16px;
-    font-weight:700;   /* sama tebal dengan judul */
-    line-height:1.4;
+    color:rgba(255,255,255,.92);
+    font-size:15px;
+    font-weight:400;
+    line-height:1.6;
+    font-family:inherit;
 }
