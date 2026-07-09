@@ -38,149 +38,42 @@ function initMenu() {
 }
 
 /* ====== Categories (topic cards + modal data) ====== */
-var TOPICS = [
-  {
-    label: "Jumlah Petani",
-    icon: "users",
-    detail: {
-      title: "Jumlah Petani menurut RT dan Jenis Kelamin",
-      rowHeader: "RT",
-      cols: ["Laki-laki", "Perempuan", "Total"],
-      rows: [
-        { label: "RT 01", values: [62, 28, 90] },
-        { label: "RT 02", values: [74, 31, 105] },
-        { label: "RT 03", values: [58, 24, 82] },
-        { label: "RT 04", values: [49, 19, 68] },
-      ],
-    },
-  },
-  {
-    label: "Luas Lahan",
-    icon: "land",
-    detail: {
-      title: "Luas Lahan Pertanian menurut Jenis Penggunaan (Ha)",
-      rowHeader: "Jenis Lahan",
-      cols: ["Luas (Ha)", "Persentase (%)"],
-      rows: [
-        { label: "Sawah Irigasi", values: ["38,5", "44,2"] },
-        { label: "Tegalan/Ladang", values: ["24,0", "27,6"] },
-        { label: "Kebun Campur", values: ["16,2", "18,6"] },
-        { label: "Pekarangan", values: ["8,4", "9,6"] },
-      ],
-    },
-  },
-  {
-    label: "Alat dan Mesin Pertanian",
-    icon: "tractor",
-    detail: {
-      title: "Jumlah Alat dan Mesin Pertanian (Alsintan)",
-      rowHeader: "Jenis Alsintan",
-      cols: ["Jumlah", "Kondisi Baik"],
-      rows: [
-        { label: "Traktor Roda Dua", values: [12, 10] },
-        { label: "Pompa Air", values: [21, 18] },
-        { label: "Mesin Perontok (Power Thresher)", values: [7, 6] },
-        { label: "Hand Sprayer", values: [86, 74] },
-      ],
-    },
-  },
-  {
-    label: "Sistem Irigasi",
-    icon: "water",
-    detail: {
-      title: "Luas Lahan menurut Sistem Irigasi (Ha)",
-      rowHeader: "Sistem Irigasi",
-      cols: ["Luas (Ha)", "Jumlah Petani"],
-      rows: [
-        { label: "Irigasi Teknis", values: ["22,4", 118] },
-        { label: "Irigasi Setengah Teknis", values: ["10,1", 64] },
-        { label: "Irigasi Sederhana", values: ["6,0", 41] },
-        { label: "Tadah Hujan", values: ["48,6", 122] },
-      ],
-    },
-  },
-  {
-    label: "Komoditas Pertanian",
-    icon: "corn",
-    detail: {
-      title: "Jumlah Petani menurut Komoditas yang Diusahakan",
-      rowHeader: "Komoditas",
-      cols: ["Jumlah Petani", "Luas Tanam (Ha)"],
-      rows: [
-        { label: "Padi", values: [142, "38,5"] },
-        { label: "Jagung", values: [78, "21,0"] },
-        { label: "Cabai", values: [54, "9,2"] },
-        { label: "Sayuran", values: [63, "11,4"] },
-        { label: "Buah", values: [37, "7,8"] },
-        { label: "Ternak", values: [29, "-"] },
-      ],
-    },
-  },
-  {
-    label: "Kepemilikan Lahan",
-    icon: "home",
-    detail: {
-      title: "Jumlah Petani menurut Status Kepemilikan Lahan",
-      rowHeader: "Status Kepemilikan",
-      cols: ["Jumlah Petani", "Persentase (%)"],
-      rows: [
-        { label: "Milik Sendiri", values: [196, "58,3"] },
-        { label: "Sewa", values: [88, "26,2"] },
-        { label: "Bagi Hasil", values: [52, "15,5"] },
-      ],
-    },
-  },
-  {
-    label: "Produksi Pertanian",
-    icon: "trend",
-    detail: {
-      title: "Estimasi Produksi Pertanian per Tahun (Ton)",
-      rowHeader: "Komoditas",
-      cols: ["Produksi (Ton)", "Produktivitas (Ton/Ha)"],
-      rows: [
-        { label: "Padi", values: ["231,0", "6,0"] },
-        { label: "Jagung", values: ["115,5", "5,5"] },
-        { label: "Cabai", values: ["73,6", "8,0"] },
-        { label: "Sayuran", values: ["91,2", "8,0"] },
-        { label: "Buah", values: ["62,4", "8,0"] },
-      ],
-    },
-  },
-];
 
 function topicTableHtml(d) {
-  var head = "<tr><th>" + d.rowHeader + "</th>";
-  d.cols.forEach(function (c) {
-    head += "<th>" + c + "</th>";
+
+  let head = "<tr><th>" + d.rowHeader + "</th>";
+
+  d.cols.forEach(function(c){
+      head += "<th>" + c + "</th>";
   });
+
   head += "</tr>";
 
-  var body = d.rows
-    .map(function (row) {
-      return (
-        "<tr><th>" +
-        row.label +
-        "</th>" +
-        row.values
-          .map(function (v) {
-            return "<td>" + fmt(v) + "</td>";
-          })
-          .join("") +
-        "</tr>"
-      );
-    })
-    .join("");
+  let body = d.rows.map(function(row){
 
-  return (
-    '<p class="modal-note">Data dummy untuk pratinjau tampilan. Angka belum mencerminkan kondisi sebenarnya.</p>' +
-    '<div class="table-wrap"><table class="data-table"><thead>' +
-    head +
-    "</thead><tbody>" +
-    body +
-    "</tbody></table></div>"
-  );
+      return "<tr><th>" + row.label + "</th>" +
+
+      row.values.map(function(v){
+
+          return "<td>" + v + "</td>";
+
+      }).join("")
+
+      + "</tr>";
+
+  }).join("");
+
+  return `
+  <div class="table-wrap">
+      <table class="data-table">
+          <thead>${head}</thead>
+          <tbody>${body}</tbody>
+      </table>
+  </div>
+  `;
+
 }
-
+let TOPICS = [];
 function initTopics() {
   var el = document.getElementById("topicsGrid");
   var modal = document.getElementById("topicModal");
@@ -238,22 +131,173 @@ function initTopics() {
 /* ====== Farmer data (table + filter + chart) ====== */
 var KOMODITAS_ORDER = ["Padi", "Jagung", "Cabai", "Sayuran", "Buah", "Ternak"];
 
-var PETANI = [
-  { nama: "Sukirman", rt: "RT 01", komoditas: "Padi", luas: 0.42, milik: "Milik Sendiri" },
-  { nama: "Wagiyem", rt: "RT 01", komoditas: "Sayuran", luas: 0.18, milik: "Sewa" },
-  { nama: "Parjono", rt: "RT 02", komoditas: "Jagung", luas: 0.55, milik: "Milik Sendiri" },
-  { nama: "Sumarni", rt: "RT 02", komoditas: "Cabai", luas: 0.21, milik: "Bagi Hasil" },
-  { nama: "Hadi Susanto", rt: "RT 03", komoditas: "Padi", luas: 0.6, milik: "Milik Sendiri" },
-  { nama: "Tukiyem", rt: "RT 03", komoditas: "Buah", luas: 0.33, milik: "Sewa" },
-  { nama: "Slamet Riyadi", rt: "RT 04", komoditas: "Ternak", luas: 0.15, milik: "Milik Sendiri" },
-  { nama: "Ngatinah", rt: "RT 01", komoditas: "Jagung", luas: 0.47, milik: "Bagi Hasil" },
-  { nama: "Darmaji", rt: "RT 04", komoditas: "Padi", luas: 0.5, milik: "Milik Sendiri" },
-  { nama: "Yatini", rt: "RT 02", komoditas: "Sayuran", luas: 0.24, milik: "Sewa" },
+var PETANI = [];
+let RT_OPTIONS = [];
+let KOMODITAS_OPTIONS = [];
+let KEPEMILIKAN_OPTIONS = [];
+
+Papa.parse(
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=0&single=true&output=csv",
+{
+    download: true,
+    header: true,
+    complete: function(result){
+
+        PETANI = result.data
+        
+        .filter(r => r["Nama Petani"])
+        .map(function(r){
+
+            return{
+                nama: r["Nama Petani"],
+                rt: r["RT"],
+                komoditas: r["Komoditas"],
+                luas: parseFloat(r["Luas Lahan (Ha)"]),
+                milik: r["Status Kepemilikan"]
+            };
+        });
+RT_OPTIONS = [
+    "Semua RT",
+    ...new Set(PETANI.map(p => p.rt))
 ];
 
-var RT_OPTIONS = ["Semua RT", "RT 01", "RT 02", "RT 03", "RT 04"];
-var KOMODITAS_OPTIONS = ["Semua Komoditas"].concat(KOMODITAS_ORDER);
-var KEPEMILIKAN_OPTIONS = ["Semua", "Milik Sendiri", "Sewa", "Bagi Hasil"];
+KOMODITAS_OPTIONS = [
+    "Semua Komoditas",
+    ...new Set(PETANI.map(p => p.komoditas))
+];
+
+KEPEMILIKAN_OPTIONS = [
+    "Semua",
+    ...new Set(PETANI.map(p => p.milik))
+];
+        // ================================
+// Membuat Topic dari Spreadsheet
+// ================================
+
+const rtMap = {};
+
+PETANI.forEach(function(p){
+
+    if(!rtMap[p.rt]){
+
+        rtMap[p.rt] = {
+            petani:0,
+            luas:0
+        };
+
+    }
+
+    rtMap[p.rt].petani++;
+    rtMap[p.rt].luas += p.luas;
+
+});
+
+// =====================
+// Hitung Status Kepemilikan
+// =====================
+
+const kepemilikanMap = {};
+
+PETANI.forEach(function(p){
+
+    kepemilikanMap[p.milik] =
+        (kepemilikanMap[p.milik] || 0) + 1;
+
+});
+
+// =====================
+// Hitung Komoditas
+// =====================
+
+const komoditasMap = {};
+
+PETANI.forEach(function(p){
+
+    komoditasMap[p.komoditas] =
+        (komoditasMap[p.komoditas] || 0) + 1;
+
+});
+
+// =====================
+// TOPICS
+// =====================
+
+TOPICS = [
+
+{
+    icon:"users",
+    label:"Jumlah Petani",
+    detail:{
+        title:"Jumlah Petani per RT",
+        rowHeader:"RT",
+        cols:["Jumlah Petani"],
+        rows:Object.keys(rtMap).map(function(rt){
+            return{
+                label:rt,
+                values:[rtMap[rt].petani]
+            };
+        })
+    }
+},
+
+{
+    icon:"land",
+    label:"Luas Lahan",
+    detail:{
+        title:"Luas Lahan per RT",
+        rowHeader:"RT",
+        cols:["Luas (Ha)"],
+        rows:Object.keys(rtMap).map(function(rt){
+            return{
+                label:rt,
+                values:[rtMap[rt].luas.toFixed(2)]
+            };
+        })
+    }
+},
+
+{
+    icon:"home",
+    label:"Status Kepemilikan",
+    detail:{
+        title:"Status Kepemilikan Lahan",
+        rowHeader:"Status",
+        cols:["Jumlah"],
+        rows:Object.keys(kepemilikanMap).map(function(status){
+            return{
+                label:status,
+                values:[kepemilikanMap[status]]
+            };
+        })
+    }
+},
+
+{
+    icon:"wheat",
+    label:"Komoditas",
+    detail:{
+        title:"Komoditas Pertanian",
+        rowHeader:"Komoditas",
+        cols:["Jumlah Petani"],
+        rows:Object.keys(komoditasMap).map(function(k){
+            return{
+                label:k,
+                values:[komoditasMap[k]]
+            };
+        })
+    }
+}
+
+];
+
+initTopics();
+
+initTopics();
+        initPertanian();
+
+    }
+});
+
 
 function fillSelect(el, options) {
   el.innerHTML = options
@@ -413,5 +457,4 @@ function initPertanian() {
 document.addEventListener("DOMContentLoaded", function () {
   initMenu();
   initTopics();
-  initPertanian();
 });
