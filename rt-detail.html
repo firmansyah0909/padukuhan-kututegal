@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color"
+content="#1f2a6b">
+
+<title>Dashboard RT - Padukuhan Kututegal</title>
+
+<meta
+name="description"
+content="Dashboard Data RT Padukuhan Kututegal">
+
+<link rel="stylesheet"
+href="style.css">
+
+<link rel="stylesheet"
+href="rt-detail.css">
+
+</head>
+
+<body class="theme-penduduk">
+
+<div class="page">
+
+<!-- =====================================
+HEADER
+===================================== -->
+
+<header class="site-header">
+
+<div class="container header-inner">
+
+<a
+class="brand"
+href="index.html">
+
+<span class="brand-logo">
+
+<svg
+class="icon"
+viewBox="0 0 24 24">
+
+<path d="M3 3v18h18"/>
+
+<rect
+x="7"
+y="10"
+width="3"
+height="7"/>
+
+<rect
+x="12"
+y="6"
+width="3"
+height="11"/>
+
+<rect
+x="17"
+y="13"
+width="3"
+height="4"/>
+
+</svg>
+
+</span>
+
+<span class="brand-text">
+
+<span class="brand-title">
+
+PADUKUHAN KUTUTEGAL
+
+</span>
+
+<span class="brand-sub">
+
+Dashboard Data Padukuhan
+
+</span>
+
+</span>
+
+</a>
+
+<nav class="nav-desktop">
+
+<a href="index.html">
+
+Beranda
+
+</a>
+
+<a
+class="active"
+href="sensus-penduduk.html">
+
+Penduduk
+
+</a>
+
+<a href="ekonomi.html">
+
+Ekonomi
+
+</a>
+
+<a href="pertanian.html">
+
+Pertanian
+
+</a>
+
+</nav>
+
+<button
+class="menu-toggle"
+id="menuToggle"
+type="button">
+
+☰
+
+</button>
+
+</div>
+
+<nav
+class="nav-mobile"
+id="navMobile">
+
+<a href="index.html">
+
+Beranda
+
+</a>
+
+<a
+class="active"
+href="sensus-penduduk.html">
+
+Penduduk
+
+</a>
+
+<a href="ekonomi.html">
+
+Ekonomi
+
+</a>
+
+<a href="pertanian.html">
+
+Pertanian
+
+</a>
+
+</nav>
+
+</header>
+
+<!-- =====================================
+MAIN
+===================================== -->
+
+<main class="main">
+
+<div class="container">
+
+<div class="page-head">
+
+<a
+class="back-btn"
+href="sensus-penduduk.html">
+
+← Kembali ke Dashboard Penduduk
+
+</a>
+
+<h1
+class="page-title"
+id="rtTitle">
+
+Dashboard RT
+
+</h1>
+
+<p
+class="page-desc"
+id="rtDesc">
+
+Informasi lengkap wilayah RT
+
+</p>
+
+</div>
+
+<!-- =====================================
+STRUKTUR ORGANISASI RT
+===================================== -->
+
+<section
+class="card"
+style="margin-top:20px;">
+
+<div class="card-title">
+
+Struktur Organisasi RT
+
+</div>
+
+<div
+class="org-chart"
+id="strukturRT">
+
+<!-- Dibuat otomatis oleh JavaScript -->
+
+</div>
+
+</section>
+<!-- =====================================
+STATISTIK RINGKAS
+===================================== -->
+
+<section class="stats-section">
+
+    <h2 class="section-label">
+
+        Statistik Ringkas
+
+    </h2>
+
+    <div
+        class="stats-grid"
+        id="rtStats">
+
+        <!-- Dibuat otomatis oleh JavaScript -->
+
+    </div>
+
+</section>
+
+<!-- =====================================
+GRAFIK
+===================================== -->
+
+<section class="card chart-card">
+
+    <div class="chart-head">
+
+        <h2>
+
+            Distribusi Penduduk Berdasarkan Generasi
+
+        </h2>
+
+        <div class="legend">
+
+            <span>
+
+                <span class="swatch swatch-1"></span>
+
+                Laki-laki
+
+            </span>
+
+            <span>
+
+                <span class="swatch swatch-2"></span>
+
+                Perempuan
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <div id="chart">
+
+        <!-- Dibuat otomatis oleh JavaScript -->
+
+    </div>
+
+</section>
+
+<!-- =====================================
+FOOTER
+===================================== -->
+
+<footer class="site-footer">
+
+    <div class="container footer-inner">
+
+        <div class="footer-info">
+
+            <div>
+
+                <h2>
+
+                    Padukuhan Kututegal
+
+                </h2>
+
+                <p class="footer-address">
+
+                    Kalurahan Sinduadi,
+                    Kapanewon Mlati,
+                    Kabupaten Sleman,
+                    Daerah Istimewa Yogyakarta
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3>
+
+                    Kontak
+
+                </h3>
+
+                <ul class="footer-contact">
+
+                    <li>
+
+                        <a href="mailto:kknsinduadi11@gmail.com">
+
+                            kknsinduadi11@gmail.com
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        0858xxxxxxxx
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="footer-kkn">
+
+            <img
+                src="images/logoo kkn.png"
+                alt="Logo KKN">
+
+            <span>
+
+                KKN Universitas Tidar 2026
+
+            </span>
+
+        </div>
+
+        <a
+            class="map-link"
+            href="https://www.google.com/maps/search/?api=1&query=Sinduadi+Mlati+Sleman+Yogyakarta"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            <img
+                src="images/map-preview.png"
+                alt="Map">
+
+            <span class="map-caption">
+
+                Lihat di Google Maps
+
+            </span>
+
+        </a>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
+
+            © 2026 KKN Universitas Tidar
+
+        </p>
+
+    </div>
+
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script src="rt-detail.js"></script>
+
+</body>
+</html>
