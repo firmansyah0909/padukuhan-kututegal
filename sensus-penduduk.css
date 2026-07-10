@@ -237,63 +237,44 @@ img {
   color: var(--accent);
 }
 
-/* ===== Topics / categories grid ===== */
-/* ===================================
+/* ==========================
    TOPICS
-=================================== */
+========================== */
 
 .topics-section{
-    margin-bottom:18px;
-    padding:20px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:var(--card);
+    margin-bottom:16px;
+    padding:18px;
 }
 
 .topics-title{
     text-align:center;
-    font-size:16px;
+    font-size:18px;
     font-weight:700;
-    margin-bottom:22px;
+    margin-bottom:18px;
 }
 
 .topics-grid{
-
     display:grid;
-
     grid-template-columns:repeat(4,1fr);
-
-    gap:22px 18px;
-
-    justify-items:center;
-
+    gap:18px;
 }
+
+/* Card */
 
 .topic-card{
 
-    width:150px;
-
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
-
     justify-content:center;
 
-    text-align:center;
+    padding:14px 10px;
 
-    padding:6px;
+    border-radius:14px;
 
-    background:none;
-
-    border:none;
-
-    box-shadow:none;
+    transition:.25s;
 
     cursor:pointer;
-
-    transition:.2s;
 
 }
 
@@ -305,13 +286,13 @@ img {
 
 .topic-icon{
 
-    width:52px;
+    width:54px;
 
-    height:52px;
+    height:54px;
 
     border-radius:50%;
 
-    background:var(--muted);
+    background:#eef4ff;
 
     display:flex;
 
@@ -319,86 +300,31 @@ img {
 
     justify-content:center;
 
+    font-size:26px;
+
     margin-bottom:10px;
 
 }
 
-.topic-icon .icon{
+.topic-title{
 
-    width:24px;
-
-    height:24px;
-
-}
-
-.topic-label{
-
-    font-size:15px;
+    font-size:17px;
 
     font-weight:600;
 
-    color:var(--foreground);
+    text-align:center;
 
     margin-bottom:4px;
 
 }
 
-.topic-desc{
+.topic-count{
 
-    font-size:13px;
+    font-size:14px;
 
-    color:var(--muted-foreground);
-
-}
-
-@media(max-width:768px){
-
-    .topics-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-        gap:18px;
-
-    }
-
-    .topic-card{
-
-        width:130px;
-
-    }
+    color:#64748b;
 
 }
-
-@media(max-width:480px){
-
-    .topic-card{
-
-        width:120px;
-
-    }
-
-    .topic-icon{
-
-        width:46px;
-
-        height:46px;
-
-    }
-
-    .topic-label{
-
-        font-size:13px;
-
-    }
-
-    .topic-desc{
-
-        font-size:12px;
-
-    }
-
-}
-
 /* ===== Cards ===== */
 .card {
   border-radius: 12px;
@@ -1070,4 +996,71 @@ img {
   .filter-grid {
     grid-template-columns: repeat(3, 1fr) auto;
   }
+}
+/* ===================================
+   TABLET
+=================================== */
+
+@media (max-width:900px){
+
+    .topics-grid{
+
+        grid-template-columns:repeat(3,1fr);
+
+        gap:14px;
+
+    }
+
+}
+
+/* ===================================
+   MOBILE
+=================================== */
+
+@media (max-width:600px){
+
+    .topics-section{
+
+        padding:12px;
+
+    }
+
+    .topics-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:10px;
+
+    }
+
+    .topic-card{
+
+        padding:10px 6px;
+
+    }
+
+    .topic-icon{
+
+        width:42px;
+
+        height:42px;
+
+        font-size:20px;
+
+        margin-bottom:8px;
+
+    }
+
+    .topic-title{
+
+        font-size:14px;
+
+    }
+
+    .topic-count{
+
+        font-size:12px;
+
+    }
+
 }
