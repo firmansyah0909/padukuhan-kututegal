@@ -261,6 +261,8 @@ img {
 
 /* Card */
 
+/* Card */
+
 .topic-card{
 
     display:flex;
@@ -300,19 +302,36 @@ img {
 
     justify-content:center;
 
-    font-size:26px;
+    color:#2563eb;
 
     margin-bottom:10px;
 
 }
 
+/* Tambahkan ini */
+.topic-icon svg{
+
+    width:26px;
+
+    height:26px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:2;
+
+}
+
 .topic-title{
 
-    font-size:17px;
+    font-size:15px;
 
     font-weight:600;
 
     text-align:center;
+
+    line-height:1.3;
 
     margin-bottom:4px;
 
@@ -320,7 +339,7 @@ img {
 
 .topic-count{
 
-    font-size:14px;
+    font-size:13px;
 
     color:#64748b;
 
@@ -869,7 +888,7 @@ img {
   padding-bottom: 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0px;
 }
 
 .footer-info {

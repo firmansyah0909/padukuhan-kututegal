@@ -137,7 +137,7 @@ let KOMODITAS_OPTIONS = [];
 let KEPEMILIKAN_OPTIONS = [];
 
 Papa.parse(
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=0&single=true&output=csv",
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=80162069&single=true&output=csv",
 {
     download: true,
     header: true,
@@ -145,16 +145,40 @@ Papa.parse(
 
         PETANI = result.data
         
-        .filter(r => r["Nama Petani"])
+        .filter(r => r["Nama Kepala Keluarga"])
         .map(function(r){
 
-            return{
-                nama: r["Nama Petani"],
-                rt: r["RT"],
-                komoditas: r["Komoditas"],
-                luas: parseFloat(r["Luas Lahan (Ha)"]),
-                milik: r["Status Kepemilikan"]
-            };
+        return{
+
+            no : Number(r["No"]),
+
+            rt : r["RT"],
+
+            kk : r["No KK"],
+
+            nama : r["Nama Kepala Keluarga"],
+
+            anggota : Number(r["Jumlah Anggota"]),
+
+            status : r["Status Petani"],
+
+            luas : Number(r["Luas Lahan (m²)"]),
+
+            milik : r["Kepemilikan"],
+
+            komoditas : r["Komoditas Utama"],
+
+            produksi : Number(r["Produksi/Tahun"]),
+
+            irigasi : r["Irigasi"],
+
+            alat : r["Alat Pertanian"],
+
+            ternak : r["Ternak"],
+
+            keterangan : r["Keterangan"]
+
+        };
         });
 RT_OPTIONS = [
     "Semua RT",
@@ -222,75 +246,122 @@ PETANI.forEach(function(p){
 // TOPICS
 // =====================
 
-TOPICS = [
+TOPICS=[
 
-{
+    {
     icon:"users",
     label:"Jumlah Petani",
     detail:{
-        title:"Jumlah Petani per RT",
-        rowHeader:"RT",
-        cols:["Jumlah Petani"],
-        rows:Object.keys(rtMap).map(function(rt){
-            return{
-                label:rt,
-                values:[rtMap[rt].petani]
-            };
-        })
+    title:"Jumlah Petani per RT",
+    rowHeader:"RT",
+    cols:["Jumlah"],
+    rows:Object.keys(rtMap).map(rt=>({
+    label:rt,
+    values:[rtMap[rt].petani]
+    }))
     }
-},
+    },
 
-{
+    {
     icon:"land",
     label:"Luas Lahan",
     detail:{
-        title:"Luas Lahan per RT",
-        rowHeader:"RT",
-        cols:["Luas (Ha)"],
-        rows:Object.keys(rtMap).map(function(rt){
-            return{
-                label:rt,
-                values:[rtMap[rt].luas.toFixed(2)]
-            };
-        })
+    title:"Luas Lahan per RT",
+    rowHeader:"RT",
+    cols:["m²"],
+    rows:Object.keys(rtMap).map(rt=>({
+    label:rt,
+    values:[fmt(rtMap[rt].luas)]
+    }))
     }
-},
+    },
 
-{
+    {
     icon:"home",
-    label:"Status Kepemilikan",
+    label:"Kepemilikan",
     detail:{
-        title:"Status Kepemilikan Lahan",
-        rowHeader:"Status",
-        cols:["Jumlah"],
-        rows:Object.keys(kepemilikanMap).map(function(status){
-            return{
-                label:status,
-                values:[kepemilikanMap[status]]
-            };
-        })
+    title:"Status Kepemilikan",
+    rowHeader:"Status",
+    cols:["Jumlah"],
+    rows:Object.keys(kepemilikanMap).map(k=>({
+    label:k,
+    values:[kepemilikanMap[k]]
+    }))
     }
-},
+    },
 
-{
+    {
     icon:"wheat",
     label:"Komoditas",
     detail:{
-        title:"Komoditas Pertanian",
-        rowHeader:"Komoditas",
-        cols:["Jumlah Petani"],
-        rows:Object.keys(komoditasMap).map(function(k){
-            return{
-                label:k,
-                values:[komoditasMap[k]]
-            };
-        })
+    title:"Komoditas Utama",
+    rowHeader:"Komoditas",
+    cols:["Jumlah"],
+    rows:Object.keys(komoditasMap).map(k=>({
+    label:k,
+    values:[komoditasMap[k]]
+    }))
     }
-}
+    },
 
-];
+    {
+    icon:"water",
+    label:"Irigasi",
+    detail:{
+    title:"Sistem Irigasi",
+    rowHeader:"Irigasi",
+    cols:["Jumlah"],
+    rows:Object.entries(
+    PETANI.reduce((a,p)=>{
+    a[p.irigasi]=(a[p.irigasi]||0)+1;
+    return a;
+    },{})
+    ).map(([k,v])=>({
+    label:k,
+    values:[v]
+    }))
+    }
+    },
 
-initTopics();
+    {
+    icon:"tractor",
+    label:"Alat",
+    detail:{
+    title:"Alat Pertanian",
+    rowHeader:"Alat",
+    cols:["Jumlah"],
+    rows:Object.entries(
+    PETANI.reduce((a,p)=>{
+    a[p.alat]=(a[p.alat]||0)+1;
+    return a;
+    },{})
+    ).map(([k,v])=>({
+    label:k,
+    values:[v]
+    }))
+    }
+    },
+
+    {
+    icon:"group",
+    label:"Ternak",
+    detail:{
+    title:"Jenis Ternak",
+    rowHeader:"Ternak",
+    cols:["Jumlah"],
+    rows:Object.entries(
+    PETANI.reduce((a,p)=>{
+    a[p.ternak]=(a[p.ternak]||0)+1;
+    return a;
+    },{})
+    ).map(([k,v])=>({
+    label:k,
+    values:[v]
+    }))
+    }
+    }
+
+    ];
 
 initTopics();
         initPertanian();
@@ -349,9 +420,23 @@ function render(applied) {
   var statsEl = document.getElementById("pertanianStats");
   if (statsEl) {
     var totalPetani = rows.length;
-    var totalLahan = rows.reduce(function (a, p) {
-      return a + p.luas;
-    }, 0);
+    var totalLahan = rows.reduce(function(a,p){
+
+        return a + p.luas;
+
+    },0);
+
+    const totalProduksi = rows.reduce(function(a,p){
+
+        return a + p.produksi;
+
+    },0);
+
+    const totalPetaniAktif = rows.filter(function(p){
+
+        return p.status==="Ya";
+
+    }).length;
     var komoditasCount = {};
     rows.forEach(function (p) {
       komoditasCount[p.komoditas] = (komoditasCount[p.komoditas] || 0) + 1;
@@ -456,5 +541,4 @@ function initPertanian() {
 /* ====== Boot ====== */
 document.addEventListener("DOMContentLoaded", function () {
   initMenu();
-  initTopics();
 });

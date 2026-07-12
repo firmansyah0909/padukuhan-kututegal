@@ -279,91 +279,106 @@ img {
   max-width: 380px;
   border-radius: 12px;
 }
+/* ===== Topics ===== */
 
-/* ===== Topics / categories grid ===== */
-.topics-section {
-  margin-bottom: 20px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  padding: 20px 16px;
-  box-shadow: 0 1px 3px rgba(20, 50, 26, 0.06);
+.topics-section{
+    margin-bottom:20px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:var(--card);
+    padding:20px 14px;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
 }
 
-.topics-title {
-  margin: 0 0 18px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
+.topics-title{
+    margin:0 0 20px;
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
 }
 
-.topics-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+.topics-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px 10px;
+
+    justify-items:center;
+
 }
 
-.topic-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex: 0 0 calc(50% - 8px);
-  border-radius: 10px;
-  border: 1px solid transparent;
-  padding: 16px 8px;
-  text-align: center;
-  cursor: pointer;
-  background: none;
-  font: inherit;
-  color: inherit;
-  transition: border-color 0.15s, background-color 0.15s, transform 0.15s;
+.topic-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:flex-start;
+
+    width:100%;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    padding:0;
+
 }
 
-.topic-card:hover {
-  border-color: rgba(67, 160, 71, 0.45);
-  background: var(--muted);
-  transform: translateY(-2px);
+.topic-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:#eef6ef;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-bottom:8px;
+
 }
 
-.topic-icon {
-  display: flex;
-  height: 56px;
-  width: 56px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--muted);
-  color: var(--primary);
+.topic-icon .icon{
+
+    width:24px;
+
+    height:24px;
+
 }
 
-.topic-icon .icon {
-  width: 28px;
-  height: 28px;
+.topic-label{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    line-height:1.25;
+
+    text-align:center;
+
 }
 
-.topic-label {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--foreground);
-  text-wrap: balance;
-}
+.topic-sub{
 
-@media (min-width: 640px) {
-  .topic-card {
-    flex: 0 0 calc(25% - 8px);
-  }
-}
+    margin-top:5px;
 
-@media (min-width: 1024px) {
-  .topic-card {
-    flex: 0 0 calc(14.28% - 8px);
-  }
+    font-size:11px;
+
+    color:#777;
+
 }
 
 /* ===== Cards ===== */
@@ -987,4 +1002,103 @@ img {
   .theme-pertanian .hero-title {
     font-size: 30px;
   }
+}
+/* ===============================
+   TOPIK PERTANIAN
+=================================*/
+
+.topics-section{
+    margin-bottom:24px;
+}
+
+.topics-title{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:26px;
+}
+
+.topics-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:26px 16px;
+    justify-items:center;
+}
+
+.topic-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    border:none;
+    background:none;
+    cursor:pointer;
+}
+
+.topic-icon{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:#edf7ee;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.3s;
+}
+
+.topic-icon svg{
+    width:26px;
+    height:26px;
+    stroke:#2e7d32;
+    stroke-width:2;
+    fill:none;
+}
+
+.topic-label{
+    margin-top:10px;
+    font-size:14px;
+    font-weight:500;
+    color:#1b1b1b;
+}
+
+.topic-card:hover .topic-icon{
+    background:#2e7d32;
+}
+
+.topic-card:hover svg{
+    stroke:#fff;
+}
+
+.topic-card:hover .topic-label{
+    color:#2e7d32;
+}
+.footer-kkn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:22px;
+
+}
+
+.footer-kkn img{
+
+    width:34px;
+
+    height:34px;
+
+    object-fit:contain;
+
+}
+
+.footer-kkn span{
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:500;
+
 }

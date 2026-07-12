@@ -208,10 +208,9 @@ img {
 }
 
 /* ===== Main / headings ===== */
-.main {
-  flex: 1;
-  padding-top: 24px;
-  padding-bottom: 24px;
+.main{
+    min-height:auto;
+    height:auto;
 }
 
 .page-head {
@@ -850,10 +849,10 @@ img {
 }
 
 /* ===== Footer ===== */
-.site-footer {
-  margin-top: auto;
-  background: var(--primary);
-  color: var(--primary-foreground);
+.site-footer{
+    margin-top:0;
+    background: var(--primary);
+    color: var(--primary-foreground);
 }
 
 .footer-inner {

@@ -41,7 +41,7 @@
         <nav class="nav-mobile" id="navMobile" aria-label="Navigasi seluler">
           <a class="nav-link" href="index.html">Beranda</a>
           <a class="nav-link" href="sensus-penduduk.html">Penduduk</a>
-          <a class="nav-link" href="#">Ekonomi</a>
+          <a class="nav-link" href="ekonomi.html">Ekonomi</a>
           <a class="nav-link active" href="pertanian.html">Pertanian</a>
         </nav>
       </header>
@@ -67,11 +67,99 @@
             </div>
           </section>
 
-          <!-- Topics / categories grid -->
-          <section class="topics-section">
-            <h2 class="topics-title">Telusuri Data Berdasarkan Tabel Topik</h2>
-            <div class="topics-grid" id="topicsGrid"></div>
-          </section>
+<!-- Topics -->
+<section class="card topics-section">
+
+    <h2 class="topics-title">
+        Telusuri Data Berdasarkan Tabel Topik
+    </h2>
+
+    <div class="topics-grid" id="topicsGrid">
+
+        <!-- Komoditas -->
+        <button class="topic-card" data-topic="komoditas">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 22V3"/>
+                    <path d="M12 6c-2 0-3-2-3-4"/>
+                    <path d="M12 10c2 0 3-2 3-4"/>
+                    <path d="M12 14c-2 0-3-2-3-4"/>
+                    <path d="M12 18c2 0 3-2 3-4"/>
+                </svg>
+            </span>
+            <span class="topic-label">Komoditas</span>
+        </button>
+
+        <!-- Jenis Tanaman -->
+        <button class="topic-card" data-topic="tanaman">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 21V12"/>
+                    <path d="M12 12C8 12 6 9 6 5c4 0 6 2 6 7"/>
+                    <path d="M12 12c4 0 6-3 6-7-4 0-6 2-6 7"/>
+                </svg>
+            </span>
+            <span class="topic-label">Jenis Tanaman</span>
+        </button>
+
+        <!-- Luas Lahan -->
+        <button class="topic-card" data-topic="luas">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16"/>
+                    <path d="M4 12h16"/>
+                    <path d="M12 4v16"/>
+                </svg>
+            </span>
+            <span class="topic-label">Luas Lahan</span>
+        </button>
+
+        <!-- Kepemilikan -->
+        <button class="topic-card" data-topic="kepemilikan">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M3 10L12 3l9 7"/>
+                    <path d="M5 10v10h14V10"/>
+                </svg>
+            </span>
+            <span class="topic-label">Kepemilikan</span>
+        </button>
+
+        <!-- Irigasi -->
+        <button class="topic-card" data-topic="irigasi">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 2C8 8 6 10.5 6 14a6 6 0 0 0 12 0c0-3.5-2-6-6-12z"/>
+                </svg>
+            </span>
+            <span class="topic-label">Irigasi</span>
+        </button>
+
+        <!-- Produksi -->
+        <button class="topic-card" data-topic="produksi">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M21 8l-9-5-9 5v8l9 5 9-5z"/>
+                    <path d="M3 8l9 5 9-5"/>
+                </svg>
+            </span>
+            <span class="topic-label">Produksi</span>
+        </button>
+
+        <!-- Status -->
+        <button class="topic-card" data-topic="status">
+            <span class="topic-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M5 21c0-4 3-7 7-7s7 3 7 7"/>
+                </svg>
+            </span>
+            <span class="topic-label">Status Petani</span>
+        </button>
+
+    </div>
+
+</section>
 
           <!-- Filter card -->
           <div class="card">
@@ -138,23 +226,17 @@
                   0858xxxxxxxx
                 </li>
               </ul>
+              <div class="footer-kkn">
+
+                  <img
+                      src="images/juv.PNG"
+                      alt="Logo KKN Universitas Tidar">
+
+                  <span>KKN Universitas Tidar 2026</span>
+
+              </div>
             </div>
           </div>
-
-          <a
-            class="map-link"
-            href="https://www.google.com/maps/search/?api=1&query=Sinduadi+Mlati+Sleman+Yogyakarta"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Buka lokasi di Google Maps"
-          >
-<<<<<<< HEAD
-            <img src="images/map-preview.png" alt="Pratinjau peta lokasi Padukuhan Kututegal" />
-=======
-            <img src="map-preview.png" alt="Pratinjau peta lokasi Padukuhan Kututegal" />
->>>>>>> 72824b9ec4f2393a8ebc396de052be2209f674b4
-            <span class="map-caption">Lihat di Google Maps</span>
-          </a>
         </div>
 
         <div class="footer-bottom">

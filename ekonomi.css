@@ -652,114 +652,154 @@ img {
 }
 
 /* ===== Footer ===== */
-.site-footer {
-  margin-top: auto;
-  background: var(--primary);
-  color: var(--primary-foreground);
+/* ==================================================
+   FOOTER
+================================================== */
+
+.site-footer{
+    margin-top:20px;
+    background:var(--primary);
+    color:#fff;
 }
 
-.footer-inner {
-  padding-top: 24px;
-  padding-bottom: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.footer-inner{
+    padding:24px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:0px;
 }
 
-.footer-info {
-  max-width: 28rem;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* -------------------------- */
+/* Informasi */
+/* -------------------------- */
+
+.footer-info{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
 }
 
-.footer-info h2 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+.footer-info h2{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+    color:#fff;
 }
 
-.footer-address {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin: 4px 0 0;
-  font-size: 14px;
-  color: rgba(255, 247, 240, 0.82);
+.footer-info h3{
+    margin:0;
+    font-size:18px;
+    font-weight:600;
+    color:#fff;
 }
 
-.footer-info h3 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+.footer-address{
+    margin-top:8px;
+    font-size:15px;
+    line-height:1.6;
+    color:rgba(255,255,255,.85);
 }
 
-.footer-contact {
-  list-style: none;
-  margin: 4px 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 14px;
-  color: rgba(255, 247, 240, 0.82);
+.footer-contact{
+    list-style:none;
+    padding:0;
+    margin:8px 0 0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
-.footer-contact li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.footer-contact li{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:15px;
+    color:rgba(255,255,255,.85);
 }
 
-.footer-contact a:hover {
-  text-decoration: underline;
+.footer-contact a{
+    color:inherit;
+    text-decoration:none;
 }
 
-.map-link {
-  position: relative;
-  display: block;
-  height: 180px;
-  width: 180px;
-  flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+.footer-contact a:hover{
+    text-decoration:underline;
 }
 
-.map-link img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+/* -------------------------- */
+/* Logo KKN */
+/* -------------------------- */
+
+.footer-kkn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:8px;
 }
 
-.map-link:hover img {
-  transform: scale(1.05);
+.footer-kkn img{
+    width:44px;
+    height:44px;
+    object-fit:contain;
 }
 
-.map-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(230, 81, 0, 0.9);
-  padding: 4px 8px;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 500;
+.footer-kkn span{
+    font-size:17px;
+    font-weight:500;
 }
 
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 12px 0;
+/* -------------------------- */
+/* Bottom */
+/* -------------------------- */
+
+.footer-bottom{
+    border-top:1px solid rgba(255,255,255,.15);
+    padding:14px 0;
+    text-align:center;
 }
 
-.footer-bottom p {
-  margin: 0;
-  text-align: center;
-  font-size: 12px;
-  color: rgba(255, 247, 240, 0.72);
+.footer-bottom p{
+    margin:0;
+    font-size:13px;
+    color:rgba(255,255,255,.75);
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width:768px){
+
+.footer-inner{
+    padding:20px 16px;
+    gap:18px;
+}
+
+.footer-info h2{
+    font-size:20px;
+}
+
+.footer-info h3{
+    font-size:17px;
+}
+
+.footer-address{
+    font-size:14px;
+}
+
+.footer-contact li{
+    font-size:14px;
+}
+
+.footer-kkn img{
+    width:38px;
+    height:38px;
+}
+
+.footer-kkn span{
+    font-size:15px;
+}
+
 }
 
 /* ===== Responsive ===== */
@@ -790,4 +830,25 @@ img {
   .filter-grid {
     grid-template-columns: repeat(3, 1fr) auto;
   }
+}
+/* ===========================
+   Footer Ekonomi
+=========================== */
+
+.footer-kkn{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    margin-top:18px;
+}
+
+.footer-kkn img{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+}
+
+.footer-kkn span{
+    font-size:14px;
+    font-weight:400;
 }

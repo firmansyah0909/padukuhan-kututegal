@@ -484,47 +484,102 @@ function renderAll(data){
 
 const TOPICS = [
 
-    {
-        title:"Jenis Kelamin",
-        icon:"👥",
-        field:"Jenis Kelamin"
-    },
+{
+    title:"Jumlah Penduduk",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="8" r="4"/>
+        <path d="M2 21v-1a6 6 0 0 1 12 0v1"/>
+        <path d="M17 11a4 4 0 1 0 0-6"/>
+        <path d="M22 21a5 5 0 0 0-4-5"/>
+    </svg>
+    `,
+    field:"Jenis Kelamin"
+},
 
-    {
-        title:"Generasi",
-        icon:"🧑",
-        field:"Generasi"
-    },
+{
+    title:"Rumah Tangga",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="8" cy="8" r="3"/>
+        <circle cx="16" cy="8" r="3"/>
+        <path d="M3 21v-1a5 5 0 0 1 10 0v1"/>
+        <path d="M11 21v-1a5 5 0 0 1 10 0v1"/>
+    </svg>
+    `,
+    field:"Status Keluarga"
+},
 
-    {
-        title:"Pendidikan",
-        icon:"🎓",
-        field:"Pendidikan"
-    },
+{
+    title:"Pendidikan",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 9l10-5 10 5-10 5z"/>
+        <path d="M6 11v5c0 2 3 4 6 4s6-2 6-4v-5"/>
+    </svg>
+    `,
+    field:"Pendidikan"
+},
 
-    {
-        title:"Mobilitas",
-        icon:"🚶",
-        field:"Mobilitas"
-    },
+{
+    title:"Mobilitas",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="4" r="2"/>
+        <path d="M12 6v6"/>
+        <path d="M8 11l4-2 4 2"/>
+        <path d="M10 22l2-6 2 6"/>
+    </svg>
+    `,
+    field:"Mobilitas"
+},
 
-    {
-        title:"Disabilitas",
-        icon:"♿",
-        field:"Disabilitas"
-    },
+{
+    title:"Disabilitas",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="4" r="2"/>
+        <path d="M12 6v6"/>
+        <circle cx="12" cy="15" r="5"/>
+    </svg>
+    `,
+    field:"Disabilitas"
+},
 
-    {
-        title:"Kelahiran",
-        icon:"👶",
-        field:"Kelahiran"
-    },
+{
+    title:"Perumahan",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 10l9-7 9 7"/>
+        <path d="M5 10v10h14V10"/>
+    </svg>
+    `,
+    field:"Status Rumah"
+},
 
-    {
-        title:"Kematian",
-        icon:"🕊️",
-        field:"Kematian"
-    }
+{
+    title:"Kelahiran",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="7" r="3"/>
+        <path d="M12 10v10"/>
+        <path d="M7 22c1-4 9-4 10 0"/>
+    </svg>
+    `,
+    field:"Kelahiran"
+},
+
+{
+    title:"Kematian",
+    icon:`
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 3v18"/>
+        <path d="M8 7h8"/>
+        <path d="M7 21h10"/>
+    </svg>
+    `,
+    field:"Kematian"
+}
 
 ];
 

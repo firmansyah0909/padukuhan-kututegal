@@ -172,43 +172,6 @@
 
 }
 
-/* =============================
-   Mobile
-============================= */
-
-@media(max-width:768px){
-
-.org-level{
-
-    flex-direction:column;
-
-    align-items:center;
-
-    gap:16px;
-
-}
-
-.org-level::before{
-
-    display:none;
-
-}
-
-.org-level .org-box::before{
-
-    display:none;
-
-}
-
-.org-box{
-
-    width:100%;
-
-    max-width:280px;
-
-}
-
-}
 /* ==========================================================
    STATISTIK
 ========================================================== */
@@ -237,13 +200,19 @@
 
     border-radius:16px;
 
-    padding:20px;
+    padding:16px;
 
     display:flex;
 
+    flex-direction:column;
+
     align-items:center;
 
-    gap:14px;
+    justify-content:center;
+
+    gap:6px;
+
+    text-align:center;
 
     transition:.2s;
 
@@ -302,6 +271,14 @@
 .chart-card{
 
     margin-top:24px;
+
+    padding:16px;
+
+    display:inline-block;
+
+    width:100%;
+
+    height:auto;
 
 }
 
@@ -369,7 +346,11 @@
 
     flex-direction:column;
 
-    gap:10px;
+    gap:6px;
+
+    height:auto;
+
+    min-height:unset;
 
 }
 
@@ -399,7 +380,7 @@
 
     flex-direction:column;
 
-    gap:3px;
+    gap:1px;
 
 }
 
@@ -450,77 +431,305 @@
     background:#ec4899;
 
 }
-
 /* ==========================================================
-   RESPONSIVE
+   MOBILE LAYOUT
 ========================================================== */
 
-@media(max-width:992px){
+@media (max-width:768px){
 
-    .info-grid{
+/* PAGE */
 
-        grid-template-columns:repeat(2,1fr);
+.page-title{
 
-    }
-
-    .struktur-grid{
-
-        grid-template-columns:repeat(3,1fr);
-
-    }
-
-    .stats-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-    }
+    font-size:30px;
 
 }
 
-@media(max-width:768px){
+.page-desc{
 
-    .struktur-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-    }
-
-    .chart-group{
-
-        grid-template-columns:90px 1fr;
-
-    }
+    font-size:14px;
 
 }
 
-@media(max-width:576px){
+/* ===========================
+   STRUKTUR ORGANISASI
+=========================== */
 
-    .info-grid{
+.org-chart{
 
-        grid-template-columns:1fr;
+    gap:12px;
 
+}
+
+.org-level{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:10px;
+
+}
+
+.org-level:first-child{
+
+    grid-template-columns:1fr;
+
+}
+
+.org-level::before{
+
+    display:none;
+
+}
+
+.org-box::before{
+
+    display:none !important;
+
+}
+
+.org-box{
+
+    min-width:unset;
+
+    width:100%;
+
+    padding:14px 8px;
+
+}
+
+.org-title{
+
+    font-size:12px;
+
+}
+
+.org-name{
+
+    font-size:15px;
+
+}
+
+/* ===========================
+   STATISTIK
+=========================== */
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,minmax(0,1fr));
+
+    gap:6px;
+
+}
+
+.stat-card{
+
+    padding:8px 4px;
+
+    min-height:80px;
+
+    gap:4px;
+
+}
+
+.stat-icon{
+
+    width:34px;
+
+    height:34px;
+
+    font-size:18px;
+
+}
+
+.stat-label{
+
+    font-size:9px;
+
+    line-height:1.15;
+
+}
+
+.stat-value{
+
+    font-size:18px;
+
+    line-height:1;
+
+}
+
+/* ===========================
+   GRAFIK
+=========================== */
+
+.chart-card{
+
+    padding:14px;
+    overflow:hidden;
+
+}
+
+.chart-head{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:8px;
+
+}
+
+.chart-head h2{
+
+    font-size:16px;
+
+}
+
+.legend{
+
+    gap:8px;
+
+    font-size:11px;
+
+}
+
+.chart-group{
+
+    margin:4px 0;
+
+}
+
+.gen{
+
+    font-size:12px;
+
+}
+
+.bar-track{
+
+    height:12px;
+
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+.footer-inner{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.map-link img{
+
+    display:none;
+
+}
+
+.map-caption{
+
+    display:block;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+}
+
+}
+/* ==========================================
+   FOOTER MOBILE
+========================================== */
+@media (max-width:768px){
+
+    .site-footer{
+        margin-top:16px;
     }
 
-    .struktur-grid{
+    .footer-inner{
 
-        grid-template-columns:1fr;
+        padding:16px;
 
-    }
-
-    .stats-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .chart-head{
+        display:flex;
 
         flex-direction:column;
 
-        align-items:flex-start;
-
         gap:10px;
 
+    }
+
+    .footer-info{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+    }
+
+    .footer-info h2{
+        font-size:22px;
+        margin-bottom:6px;
+    }
+
+    .footer-info h3{
+        font-size:18px;
+        margin-bottom:4px;
+    }
+
+    .footer-address{
+        font-size:14px;
+        line-height:1.5;
+    }
+
+    .footer-contact li{
+        font-size:14px;
+        margin-bottom:4px;
+    }
+
+    .footer-kkn{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:8px;
+
+        margin-top:4px;
+
+    }
+
+    .footer-kkn img{
+        width:34px;
+        height:34px;
+    }
+
+    .footer-kkn span{
+        font-size:14px;
+    }
+
+    .map-caption{
+        padding:8px;
+        font-size:14px;
+    }
+
+    .footer-bottom{
+        padding:12px;
+        font-size:13px;
+    }
+
+}
+@media (max-width:768px){
+
+    .map-link{
+        display:none;
     }
 
 }
