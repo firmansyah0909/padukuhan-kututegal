@@ -1,4 +1,8 @@
+const KEGIATAN_CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1965206403&single=true&output=csv";
 "use strict";
+const PROFIL_CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1435619274&single=true&output=csv";
 
 /* ====== Inline SVG icons (stroke uses currentColor) ====== */
 var ICONS = {
@@ -34,6 +38,10 @@ var ICONS = {
     '<svg class="icon" viewBox="0 0 24 24"><path d="M8 22V9a4 4 0 0 1 8 0v13"/><line x1="12" y1="4" x2="12" y2="9"/><line x1="9.5" y1="6" x2="14.5" y2="6"/><line x1="6" y1="22" x2="18" y2="22"/></svg>',
   housing:
     '<svg class="icon" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><rect x="10" y="14" width="4" height="6"/></svg>',
+  calendar:
+    '<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  megaphone:
+    '<svg class="icon" viewBox="0 0 24 24"><path d="M3 11v2l11 4V7L3 11Z"/><path d="M14 8c2 1 4 2 7 2v4c-3 0-5 1-7 2"/><path d="M6 15l1.5 4h2L8 14"/></svg>',
 };
 
 function fmt(n) {
@@ -60,24 +68,28 @@ var HOME_STATS = [
 ];
 
 var SERVICES = [
+
   {
     title: "Sensus Penduduk",
     desc: "Data jumlah, distribusi, dan struktur penduduk berdasarkan RT, generasi, dan jenis kelamin.",
     icon: "users",
     href: "sensus-penduduk.html"
   },
+
   {
-    title: "Sensus Pertanian",
-    desc: "Informasi luas lahan, komoditas, dan jumlah rumah tangga petani di wilayah padukuhan.",
-    icon: "wheat",
-    href: "pertanian.html"
+    title: "Jadwal Kegiatan",
+    desc: "Informasi agenda dan kegiatan yang sedang maupun akan dilaksanakan di Padukuhan Kututegal.",
+    icon: "calendar",
+    href: "kegiatan.html"
   },
+
   {
-    title: "Sensus Ekonomi",
-    desc: "Pendataan unit usaha, UMKM, dan aktivitas ekonomi warga Padukuhan Kututegal.",
-    icon: "building",
-    href: "ekonomi.html"
+    title: "Pengumuman",
+    desc: "Informasi terbaru, pemberitahuan, dan agenda penting bagi masyarakat Padukuhan Kututegal.",
+    icon: "megaphone",
+    href: "pengumuman.html"
   }
+
 ];
 
 function statCard(s) {
@@ -122,7 +134,97 @@ function initHome() {
     `;
   }).join("");
 }
+function loadProfil(){
+
+    Papa.parse(PROFIL_CSV,{
+
+        download:true,
+
+        header:true,
+
+        skipEmptyLines:true,
+
+        complete:function(result){
+
+            renderProfil(result.data);
+
+        }
+
+    });
+
+}
+function renderProfil(data){
+
+    const card=document.getElementById("activityCard");
+
+    if(!card) return;
+
+    const profil=data[0];
+
+    card.innerHTML=`
+
+        <div class="activity-inner">
+
+            <div class="activity-media">
+
+                <img
+
+                    src="${convertDriveImage(profil["Foto"])}"
+
+                    alt="${profil["Nama Padukuhan"]}">
+
+            </div>
+
+            <div class="activity-body">
+
+                <span class="badge">
+
+                    Profil Padukuhan
+
+                </span>
+
+                <h3 class="activity-title">
+
+                    ${profil["Nama Padukuhan"]}
+
+                </h3>
+
+                <p class="activity-text">
+
+                    ${profil["Deskripsi"]}
+
+                </p>
+
+                <a
+
+                    class="link-accent"
+
+                    href="profil.html">
+
+                    Informasi Selengkapnya
+
+                </a>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+function convertDriveImage(url){
+
+    if(!url) return "";
+
+    const match=url.match(/[-\w]{25,}/);
+
+    if(!match) return url;
+
+    return "https://drive.google.com/thumbnail?id="+match[0]+"&sz=w1000";
+
+}
 document.addEventListener("DOMContentLoaded", function () {
     initMenu();
     initHome();
+    loadProfil();
 });

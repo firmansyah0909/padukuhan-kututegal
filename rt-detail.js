@@ -55,12 +55,40 @@ function loadCSV(url){
     });
 
 }
+/* ==========================================================
+   MENU MOBILE
+========================================================== */
+
+function initMenu(){
+
+    const menuToggle = document.getElementById("menuToggle");
+
+    const navMobile = document.getElementById("navMobile");
+
+    if(!menuToggle || !navMobile) return;
+
+    menuToggle.addEventListener("click",function(){
+
+        navMobile.classList.toggle("open");
+
+        menuToggle.setAttribute(
+
+            "aria-expanded",
+
+            navMobile.classList.contains("open")
+
+        );
+
+    });
+
+}
 
 /* ==========================================================
    INIT
 ========================================================== */
 
 async function init(){
+    initMenu();
 
     try{
 

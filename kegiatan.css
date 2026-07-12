@@ -904,107 +904,107 @@ img {
   }
 }
 
-/* ===== Compact, tidier layout for Pertanian page ===== */
-.theme-pertanian {
+/* ===== Compact, tidier layout for kegiatan page ===== */
+.theme-kegiatan {
   line-height: 1.45;
 }
 
-.theme-pertanian .main {
+.theme-kegiatan .main {
   padding-top: 16px;
   padding-bottom: 16px;
 }
 
-.theme-pertanian .hero {
+.theme-kegiatan .hero {
   margin-bottom: 16px;
   padding: 18px;
   gap: 14px;
 }
 
-.theme-pertanian .hero-title {
+.theme-kegiatan .hero-title {
   margin-top: 8px;
 }
 
-.theme-pertanian .hero-desc {
+.theme-kegiatan .hero-desc {
   margin-top: 6px;
   font-size: 14px;
 }
 
-.theme-pertanian .hero-art img {
+.theme-kegiatan .hero-art img {
   max-width: 300px;
 }
 
-.theme-pertanian .topics-section {
+.theme-kegiatan .topics-section {
   margin-bottom: 14px;
   padding: 14px;
 }
 
-.theme-pertanian .topics-title {
+.theme-kegiatan .topics-title {
   margin-bottom: 12px;
   font-size: 16px;
 }
 
-.theme-pertanian .topics-grid {
+.theme-kegiatan .topics-grid {
   gap: 6px;
 }
 
-.theme-pertanian .topic-card {
+.theme-kegiatan .topic-card {
   padding: 10px 6px;
   gap: 6px;
 }
 
-.theme-pertanian .topic-icon {
+.theme-kegiatan .topic-icon {
   height: 46px;
   width: 46px;
 }
 
-.theme-pertanian .topic-icon .icon {
+.theme-kegiatan .topic-icon .icon {
   width: 24px;
   height: 24px;
 }
 
-.theme-pertanian .topic-label {
+.theme-kegiatan .topic-label {
   font-size: 12px;
 }
 
-.theme-pertanian .card {
+.theme-kegiatan .card {
   padding: 14px;
 }
 
-.theme-pertanian .stats-section {
+.theme-kegiatan .stats-section {
   margin-top: 14px;
 }
 
-.theme-pertanian .stats-section .section-label {
+.theme-kegiatan .stats-section .section-label {
   margin-bottom: 8px;
 }
 
-.theme-pertanian .chart-card,
-.theme-pertanian .table-card {
+.theme-kegiatan .chart-card,
+.theme-kegiatan .table-card {
   margin-top: 14px;
 }
 
-.theme-pertanian .chart-head {
+.theme-kegiatan .chart-head {
   margin-bottom: 12px;
 }
 
-.theme-pertanian .chart-group {
+.theme-kegiatan .chart-group {
   margin-bottom: 9px;
 }
 
-.theme-pertanian .bar-track {
+.theme-kegiatan .bar-track {
   height: 20px;
 }
 
 @media (min-width: 768px) {
-  .theme-pertanian .hero {
+  .theme-kegiatan .hero {
     padding: 22px 26px;
   }
-  .theme-pertanian .hero-title {
+  .theme-kegiatan .hero-title {
     font-size: 30px;
   }
 }
 /* ===============================
-   TOPIK PERTANIAN
+   TOPIK kegiatan
 =================================*/
 
 .topics-section{
@@ -1100,5 +1100,178 @@ img {
     font-size:14px;
 
     font-weight:500;
+
+}
+/* ======================================================
+   JADWAL KEGIATAN
+====================================================== */
+
+#kegiatanContainer{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.kegiatan-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    background:#fff;
+
+    border:1px solid #dbe7db;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+
+}
+
+.kegiatan-img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+
+}
+
+.kegiatan-body{
+
+    padding:18px;
+
+}
+
+.kegiatan-title{
+
+    margin:10px 0;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#17331c;
+
+}
+
+.kegiatan-desc{
+
+    margin:10px 0;
+
+    color:#555;
+
+    line-height:1.7;
+
+}
+
+.kegiatan-date{
+
+    margin-top:12px;
+
+    color:#2e7d32;
+
+    font-weight:600;
+
+}
+
+.kegiatan-link{
+
+    display:inline-block;
+
+    margin-top:16px;
+
+    color:#2e7d32;
+
+    font-weight:700;
+
+}
+
+.kegiatan-link:hover{
+
+    text-decoration:underline;
+
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:6px 14px;
+
+    border-radius:999px;
+
+    color:#fff;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.badge-success{
+
+    background:#2e7d32;
+
+}
+
+.badge-warning{
+
+    background:#f9a825;
+
+}
+
+.badge-secondary{
+
+    background:#757575;
+
+}
+
+.badge-primary{
+
+    background:#1976d2;
+
+}
+
+.empty{
+
+    text-align:center;
+
+    padding:50px;
+
+    color:#777;
+
+}
+
+@media (min-width:768px){
+
+    .kegiatan-card{
+
+        flex-direction:row;
+
+    }
+
+    .kegiatan-img{
+
+        width:320px;
+
+        height:240px;
+
+        flex-shrink:0;
+
+    }
+
+    .kegiatan-body{
+
+        flex:1;
+
+    }
 
 }

@@ -29,8 +29,8 @@
           <nav class="nav-desktop" aria-label="Navigasi utama">
             <a class="nav-link active" href="index.html">Beranda</a>
             <a class="nav-link" href="sensus-penduduk.html">Penduduk</a>
-            <a class="nav-link" href="ekonomi.html">Ekonomi</a>
-            <a class="nav-link" href="pertanian.html">Pertanian</a>
+            <a class="nav-link" href="pengumuman.html">pengumuman</a>
+            <a class="nav-link" href="kegiatan.html">kegiatan</a>
           </nav>
 
           <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu" aria-expanded="false">
@@ -41,8 +41,8 @@
         <nav class="nav-mobile" id="navMobile" aria-label="Navigasi seluler">
           <a class="nav-link active" href="index.html">Beranda</a>
           <a class="nav-link" href="sensus-penduduk.html">Penduduk</a>
-          <a class="nav-link" href="#">Ekonomi</a>
-          <a class="nav-link" href="pertanian.html">Pertanian</a>
+          <a class="nav-link" href="pengumuman.html">pengumuman</a>
+          <a class="nav-link" href="kegiatan.html">kegiatan</a>
         </nav>
       </header>
 
@@ -52,40 +52,17 @@
           <div class="page-head">
             <h1 class="page-title">Selamat Datang di Dashboard Padukuhan Kututegal</h1>
             <p class="page-desc">
-              Pusat data dan layanan informasi kependudukan, pertanian, dan ekonomi padukuhan.
+              Pusat data dan layanan informasi kependudukan, kegiatan, dan pengumuman padukuhan.
             </p>
           </div>
 
           <div class="grid-main">
             <!-- Left: activity + stats -->
             <section>
-              <h2 class="section-label">Kegiatan Saat Ini</h2>
+              <h2 class="section-label">Profil Padukuhan</h2>
+                <article class="activity-card" id="activityCard">
 
-              <article class="activity-card">
-                <div class="activity-inner">
-                  <div class="activity-media">
-                    <img
-                      src="images/pendataan-2026.png"
-                      alt="Petugas melakukan pendataan di Padukuhan Kututegal"
-                    />
-                  </div>
-                  <div class="activity-body">
-                    <span class="badge">
-                      <svg class="icon icon-xs" viewBox="0 0 24 24"><path d="M7 20h10" /><path d="M12 20v-9" /><path d="M9.5 8.5c0-2 2.5-4.5 2.5-4.5s2.5 2.5 2.5 4.5a2.5 2.5 0 0 1-5 0Z" /></svg>
-                      Sedang Berlangsung
-                    </span>
-                    <h3 class="activity-title">Pendataan Padukuhan Kututegal 2026</h3>
-                    <p class="activity-text">
-                      Kegiatan pemutakhiran data penduduk, pertanian, dan ekonomi yang
-                      dilaksanakan oleh tim KKN bersama perangkat padukuhan.
-                    </p>
-                    <a class="link-accent" href="sensus-penduduk.html">
-                      Informasi Lebih Lanjut
-                      <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
-                    </a>
-                  </div>
-                </div>
-              </article>
+                </article>
             </section>
 
             <!-- Right: services -->
@@ -119,11 +96,6 @@
                   <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z" /></svg>
                   085803719310
                 </li>
-                <div class="footer-kkn">
-                  <img src="images/juv.PNG" alt="Logo KKN Universitas Tidar">
-
-                  <span>KKN Universitas Tidar 2026</span>
-              </div>
               </ul>
             </div>
           </div>
@@ -146,6 +118,7 @@
       </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

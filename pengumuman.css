@@ -832,7 +832,7 @@ img {
   }
 }
 /* ===========================
-   Footer Ekonomi
+   Footer pengumuman
 =========================== */
 
 .footer-kkn{
@@ -851,4 +851,125 @@ img {
 .footer-kkn span{
     font-size:14px;
     font-weight:400;
+}
+/* ==========================================
+   PENGUMUMAN
+========================================== */
+
+.pengumuman-section{
+    margin-top:20px;
+}
+
+.pengumuman-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.pengumuman-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 6px 16px rgba(0,0,0,.06);
+
+}
+
+.pengumuman-body{
+
+    padding:18px;
+
+}
+
+.pengumuman-title{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+    margin:12px 0;
+
+}
+
+.pengumuman-desc{
+
+    color:#555;
+
+    line-height:1.7;
+
+    margin-bottom:16px;
+
+}
+
+.pengumuman-date{
+
+    font-size:14px;
+
+    color:#666;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:6px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.badge-danger{
+
+    background:#ffebee;
+
+    color:#c62828;
+
+}
+
+.badge-warning{
+
+    background:#fff3cd;
+
+    color:#b26a00;
+
+}
+
+.badge-normal{
+
+    background:#e3f2fd;
+
+    color:#1565c0;
+
+}
+
+.empty{
+
+    text-align:center;
+
+    padding:50px 20px;
+
+    color:#888;
+
+    font-size:16px;
+
 }

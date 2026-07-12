@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#283593">
+
+    <title>Jadwal Kegiatan | Padukuhan Kututegal</title>
+
+    <link rel="stylesheet" href="kegiatan.css">
+</head>
+
+<body class="theme-kegiatan">
+
+<div class="page">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="site-header">
+
+        <div class="container header-inner">
+
+            <a class="brand" href="index.html">
+
+                <span class="brand-logo">
+
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <rect x="4" y="3" width="16" height="18" rx="2"/>
+                        <line x1="8" y1="8" x2="16" y2="8"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                        <line x1="8" y1="16" x2="13" y2="16"/>
+                    </svg>
+
+                </span>
+
+                <span class="brand-text">
+
+                    <span class="brand-title">
+                        PADUKUHAN KUTUTEGAL
+                    </span>
+
+                    <span class="brand-sub">
+                        Dashboard Data Padukuhan
+                    </span>
+
+                </span>
+
+            </a>
+
+            <nav class="nav-desktop">
+
+                <a href="index.html">Beranda</a>
+
+                <a href="sensus-penduduk.html">Penduduk</a>
+
+                <a class="active" href="kegiatan.html">Kegiatan</a>
+
+                <a href="pengumuman.html">Pengumuman</a>
+
+            </nav>
+
+            <button
+                id="menuToggle"
+                class="menu-toggle">
+
+                ☰
+
+            </button>
+
+        </div>
+
+        <nav id="navMobile" class="nav-mobile">
+
+            <a href="index.html">Beranda</a>
+
+            <a href="sensus-penduduk.html">Penduduk</a>
+
+            <a class="active" href="kegiatan.html">Kegiatan</a>
+
+            <a href="pengumuman.html">Pengumuman</a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <div class="container">
+
+
+            <!-- HERO -->
+
+            <section class="hero">
+
+                <div class="hero-text">
+
+                    <span class="hero-eyebrow">
+
+                        📅 Agenda Padukuhan
+
+                    </span>
+
+                    <h1 class="hero-title">
+
+                        Jadwal Kegiatan Padukuhan Kututegal
+
+                    </h1>
+
+                    <p class="hero-desc">
+
+                        Informasi kegiatan yang sedang berlangsung
+                        maupun yang akan dilaksanakan
+                        di Padukuhan Kututegal.
+
+                    </p>
+
+                </div>
+
+                <div class="hero-art">
+
+                    <img
+                        src="images/pendataan-2026.png"
+                        alt="Agenda Padukuhan">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- DAFTAR KEGIATAN -->
+
+            <section class="card">
+
+                <div class="card-title">
+
+                    📅 Jadwal Kegiatan
+
+                </div>
+
+                <div id="kegiatanContainer">
+
+                    <!-- otomatis dari Spreadsheet -->
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-inner">
+
+            <div class="footer-info">
+
+                <h2>Padukuhan Kututegal</h2>
+
+                <p>
+
+                    Kalurahan Sinduadi,
+                    Kapanewon Mlati,
+                    Kabupaten Sleman,
+                    Daerah Istimewa Yogyakarta
+
+                </p>
+
+                <h3>Kontak</h3>
+
+                <p>
+
+                    📧
+                    kknsinduadi11@gmail.com
+
+                </p>
+
+                <p>
+
+                    ☎
+                    085803719310
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 KKN Universitas Tidar
+
+        </div>
+
+    </footer>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script src="kegiatan.js"></script>
+
+</body>
+</html>
