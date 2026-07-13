@@ -5,7 +5,7 @@
 ========================================== */
 
 const PENGUMUMAN_CSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1290842795&single=true&output=csv";
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1473306753&single=true&output=csv";
 
 /* ==========================================
    GLOBAL
@@ -78,6 +78,20 @@ function loadPengumuman(){
    TAMPILKAN PENGUMUMAN
 ========================================== */
 
+function parseTanggal(str){
+
+    if(!str) return null;
+
+    const p = str.trim().split("/");
+
+    return new Date(
+        Number(p[2]),
+        Number(p[1])-1,
+        Number(p[0])
+    );
+
+}
+
 function renderPengumuman(){
 
     const container=document.getElementById("pengumumanContainer");
@@ -87,13 +101,9 @@ function renderPengumuman(){
     if(PENGUMUMAN.length===0){
 
         container.innerHTML=`
-
             <div class="empty">
-
                 Belum ada pengumuman.
-
             </div>
-
         `;
 
         return;
@@ -102,36 +112,60 @@ function renderPengumuman(){
 
     container.innerHTML="";
 
+    const hariIni=new Date();
+
+    hariIni.setHours(0,0,0,0);
+
     PENGUMUMAN.forEach(function(item){
 
-        container.innerHTML+=`
+        const tanggalMulai=parseTanggal(item["Tanggal Mulai"]);
+        const tanggalSelesai=parseTanggal(item["Tanggal Selesai"]);
+
+        tanggalMulai.setHours(0,0,0,0);
+        tanggalSelesai.setHours(23,59,59,999);
+
+        let status="";
+        let badgeClass="";
+
+        if(hariIni < tanggalMulai){
+
+            status="Akan Datang";
+            badgeClass="badge-upcoming";
+
+        }
+        else if(hariIni <= tanggalSelesai){
+
+            status="Sedang Berlangsung";
+            badgeClass="badge-ongoing";
+
+        }
+        else{
+
+            status="Selesai";
+            badgeClass="badge-finished";
+
+        }
+
+        container.innerHTML += `
 
         <article class="pengumuman-card">
 
             <div class="pengumuman-body">
 
-                <span class="badge ${getBadgeClass(item["Prioritas"])}">
-
-                    ${item["Prioritas"]}
-
+                <span class="badge ${badgeClass}">
+                    ${status}
                 </span>
 
                 <h2 class="pengumuman-title">
-
                     ${item["Judul"]}
-
                 </h2>
 
                 <p class="pengumuman-desc">
-
                     ${item["Isi"]}
-
                 </p>
 
                 <div class="pengumuman-date">
-
-                    📅 ${item["Tanggal"]}
-
+                    📅 ${item["Tanggal Mulai"]} - ${item["Tanggal Selesai"]}
                 </div>
 
             </div>

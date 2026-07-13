@@ -1,21 +1,28 @@
 /* ===== Design tokens (green agriculture dashboard) ===== */
 :root {
-  --background: #f3f8f3;
-  --foreground: #14321a;
+  --background: #f4f6fb;
+  --foreground: #1b2340;
   --card: #ffffff;
-  --primary: #2e7d32;
-  --primary-foreground: #f4faf4;
-  --accent: #43a047;
+
+  --primary: #1f2a6b;
+  --primary-foreground: #f7f9ff;
+
+  --accent: #2563c9;
   --accent-foreground: #ffffff;
-  --muted: #e8f5e9;
-  --muted-foreground: #4f6b53;
-  --border: #d4e8d6;
-  --input: #cfe3d1;
-  --ring: #43a047;
-  --chart-1: #2e7d32;
-  --chart-3: #66bb6a;
-  --secondary: #e8f5e9;
-  --secondary-foreground: #1b4620;
+
+  --muted: #eef1f8;
+  --muted-foreground: #5a6486;
+
+  --border: #dce1ee;
+  --input: #dce1ee;
+  --ring: #2563c9;
+
+  --chart-1: #1f2a6b;
+  --chart-3: #4f9be0;
+
+  --secondary: #eef1f8;
+  --secondary-foreground: #1b2340;
+
   --radius: 8px;
   color-scheme: light;
 }
@@ -771,11 +778,10 @@ img {
   gap: 24px;
 }
 
-.footer-info {
-  max-width: 28rem;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.footer-info{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
 }
 
 .footer-info h2 {
@@ -785,13 +791,12 @@ img {
   letter-spacing: 0.03em;
 }
 
-.footer-address {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin: 4px 0 0;
-  font-size: 14px;
-  color: rgba(244, 250, 244, 0.8);
+.footer-address{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin-top:8px;
+    line-height:1.6;
 }
 
 .footer-info h3 {
@@ -800,21 +805,18 @@ img {
   font-weight: 600;
 }
 
-.footer-contact {
-  list-style: none;
-  margin: 4px 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 14px;
-  color: rgba(244, 250, 244, 0.8);
+.footer-contact{
+    list-style:none;
+    padding:0;
+    margin:8px 0 0;
 }
 
-.footer-contact li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.footer-contact li{
+    display:flex;
+    align-items:center;
+    gap:10px;          /* jarak ikon dengan teks */
+    margin:4px 0;      /* jarak antar email & telepon */
+    line-height:1.2;
 }
 
 .footer-contact a:hover {
@@ -855,9 +857,11 @@ img {
   font-weight: 500;
 }
 
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 12px 0;
+.footer-bottom{
+    margin-top:24px;
+    padding:14px 0;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.12);
 }
 
 .footer-bottom p {
@@ -1132,15 +1136,23 @@ img {
 
     box-shadow:0 2px 8px rgba(0,0,0,.06);
 
+    height:100%;
+
 }
 
-.kegiatan-img{
+.activity-image{
 
     width:100%;
 
     height:220px;
 
+    display:block;
+
     object-fit:cover;
+
+    object-position:center;
+
+    border-radius:12px 12px 0 0;
 
 }
 
@@ -1256,21 +1268,335 @@ img {
 
         flex-direction:row;
 
+        align-items:stretch;
+
     }
 
     .kegiatan-img{
 
-        width:320px;
+        width:340px;
 
-        height:240px;
+        height:250px;
 
-        flex-shrink:0;
+        object-fit:cover;
+
+        object-position:center;
 
     }
 
     .kegiatan-body{
 
         flex:1;
+
+        display:flex;
+
+        flex-direction:column;
+
+    }
+
+}
+.footer-contact{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-top:8px;
+}
+
+.footer-contact p{
+    margin:0;
+}
+
+.footer-address{
+    margin:8px 0;
+    line-height:1.6;
+}
+.badge-upcoming{
+
+    background:#fef3c7;
+    color:#b45309;
+
+}
+
+.badge-ongoing{
+
+    background:#dcfce7;
+    color:#15803d;
+
+}
+
+.badge-finished{
+
+    background:#fee2e2;
+    color:#dc2626;
+
+}
+/* ======================================================
+   ACCORDION BULAN
+====================================================== */
+
+.bulan-item{
+
+    background:#fff;
+
+    border:1px solid #dbe4f0;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    margin-bottom:18px;
+
+    box-shadow:0 4px 16px rgba(0,0,0,.05);
+
+}
+
+.bulan-header{
+
+    width:100%;
+
+    background:#24306e;
+
+    color:#fff;
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    padding:18px 22px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+.bulan-header:hover{
+
+    background:#31408d;
+
+}
+
+.bulan-header.active{
+
+    background:#1f2a6b;
+
+}
+
+.bulan-icon{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+.bulan-content{
+
+    padding:24px;
+
+    background:#f8fbff;
+
+}
+
+.empty-bulan{
+
+    text-align:center;
+
+    padding:30px;
+
+    color:#7b8794;
+
+    font-size:15px;
+
+}
+
+/* ======================================================
+   CARD KEGIATAN
+====================================================== */
+
+.activity-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    margin-bottom:24px;
+
+    border:1px solid #e4e8ef;
+
+    box-shadow:0 8px 22px rgba(0,0,0,.05);
+
+}
+
+.activity-card:last-child{
+
+    margin-bottom:0;
+
+}
+
+.activity-image{
+
+    width:100%;
+
+    height:220px;
+
+    display:block;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    background:#eef2f7;
+
+}
+
+.activity-body{
+
+    padding:22px;
+
+}
+
+.activity-title{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#132c63;
+
+    margin:16px 0 14px;
+
+}
+
+.activity-desc{
+
+    color:#4f5b6b;
+
+    line-height:1.8;
+
+    margin-bottom:14px;
+
+}
+
+.activity-date{
+
+    color:#177d38;
+
+    font-weight:600;
+
+    margin-bottom:18px;
+
+}
+
+.activity-link{
+
+    color:#177d38;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+}
+
+.activity-link:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ======================================================
+   BADGE STATUS
+====================================================== */
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.badge-upcoming{
+
+    background:#fff3cd;
+
+    color:#9a6700;
+
+}
+
+.badge-ongoing{
+
+    background:#d1f7d8;
+
+    color:#147a34;
+
+}
+
+.badge-finished{
+
+    background:#fde2e2;
+
+    color:#c62828;
+
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media(max-width:768px){
+
+    .bulan-header{
+
+        font-size:17px;
+
+        padding:16px;
+
+    }
+
+    .bulan-content{
+
+        padding:16px;
+
+    }
+
+    .activity-image{
+
+        height:180px;
+
+    }
+
+    .activity-body{
+
+        padding:18px;
+
+    }
+
+    .activity-title{
+
+        font-size:25px;
 
     }
 

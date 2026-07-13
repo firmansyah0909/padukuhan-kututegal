@@ -5,7 +5,7 @@
 ========================================== */
 
 const KEGIATAN_CSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1965206403&single=true&output=csv";
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1965206403&single=true&output=csv&t=" + Date.now();
 
 /* ==========================================
    GLOBAL
@@ -72,99 +72,290 @@ function loadKegiatan() {
     });
 
 }
+function parseTanggal(str){
+
+    if(!str) return null;
+
+    str = str.trim();
+
+    if(str.includes("/")){
+
+        const p = str.split("/");
+
+        return new Date(
+            Number(p[2]),
+            Number(p[1]) - 1,
+            Number(p[0])
+        );
+
+    }
+
+    return new Date(str);
+
+}
+/* ==========================================
+   NAMA BULAN
+========================================== */
+
+const BULAN = [
+
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+
+];
+
+/* ==========================================
+   STATUS KEGIATAN
+========================================== */
+
+function getStatus(item){
+
+    const hariIni = new Date();
+
+    hariIni.setHours(0,0,0,0);
+
+    const mulai = parseTanggal(item["Tanggal Mulai"]);
+
+    const selesai = parseTanggal(item["Tanggal Selesai"]);
+
+    selesai.setHours(23,59,59,999);
+
+    if(hariIni < mulai){
+
+        return{
+            text:"Akan Datang",
+            badge:"badge-upcoming",
+            order:2
+        };
+
+    }
+
+    if(hariIni <= selesai){
+
+        return{
+            text:"Sedang Berlangsung",
+            badge:"badge-ongoing",
+            order:1
+        };
+
+    }
+
+    return{
+
+        text:"Selesai",
+        badge:"badge-finished",
+        order:3
+
+    };
+
+}
+
+/* ==========================================
+   GROUP KEGIATAN PER BULAN
+========================================== */
+
+function kelompokkanBulan(){
+
+    const data={};
+
+    BULAN.forEach(function(nama){
+
+        data[nama]=[];
+
+    });
+
+    KEGIATAN.forEach(function(item){
+
+        const tanggal=parseTanggal(item["Tanggal Mulai"]);
+
+        const bulan=BULAN[tanggal.getMonth()];
+
+        item.status=getStatus(item);
+
+        data[bulan].push(item);
+
+    });
+
+    BULAN.forEach(function(bulan){
+
+        data[bulan].sort(function(a,b){
+
+            if(a.status.order!==b.status.order){
+
+                return a.status.order-b.status.order;
+
+            }
+
+            return parseTanggal(a["Tanggal Mulai"])-parseTanggal(b["Tanggal Mulai"]);
+
+        });
+
+    });
+
+    return data;
+
+}
 /* ==========================================
    TAMPILKAN KEGIATAN
 ========================================== */
 
-function renderKegiatan() {
+function renderKegiatan(){
 
     const container = document.getElementById("kegiatanContainer");
 
-    if (!container) return;
+    if(!container) return;
 
-    if (KEGIATAN.length === 0) {
+    if(KEGIATAN.length===0){
 
-        container.innerHTML = `
-
+        container.innerHTML=`
             <div class="empty">
-
                 Belum ada kegiatan.
-
             </div>
-
         `;
 
         return;
 
     }
 
-    container.innerHTML = "";
+    const dataBulan = kelompokkanBulan();
 
-    KEGIATAN.forEach(function(item){
+    container.innerHTML="";
 
-        container.innerHTML += `
+    BULAN.forEach(function(bulan,index){
 
-        <article class="kegiatan-card">
+        const daftar = dataBulan[bulan];
 
-            <img
-                class="kegiatan-img"
-                src="${convertDriveImage(item["Foto"])}"
-                alt="${item["Judul"]}">
+        let isi="";
 
-            <div class="kegiatan-body">
+        daftar.forEach(function(item){
 
-                <span class="badge ${getBadgeClass(item["Status"])}">
+            isi+=`
 
-                    ${item["Status"]}
+            <article class="activity-card">
 
-                </span>
+                <img
+                    src="${convertDriveImage(item["Foto"])}"
+                    alt="${item["Judul"]}"
+                    class="activity-image"
+                >
 
-                <h2 class="kegiatan-title">
+                <div class="activity-body">
 
-                    ${item["Judul"]}
+                    <span class="badge ${item.status.badge}">
+                        ${item.status.text}
+                    </span>
 
-                </h2>
+                    <h2 class="activity-title">
+                        ${item["Judul"]}
+                    </h2>
 
-                <p class="kegiatan-desc">
+                    <p class="activity-desc">
+                        ${item["Deskripsi"]}
+                    </p>
 
-                    ${item["Deskripsi"]}
+                    <div class="activity-date">
+                        📅 ${item["Tanggal Mulai"]} - ${item["Tanggal Selesai"]}
+                    </div>
 
-                </p>
-
-                <div class="kegiatan-date">
-
-                    📅
-                    ${formatTanggal(item["Tanggal Mulai"])}
-                    -
-                    ${formatTanggal(item["Tanggal Selesai"])}
+                    <a
+                        href="${item["Link"]}"
+                        class="activity-link"
+                        target="_blank"
+                    >
+                        Informasi Selengkapnya →
+                    </a>
 
                 </div>
 
+            </article>
+
+            `;
+
+        });
+
+        container.innerHTML += `
+
+        <div class="bulan-item">
+
+            <button
+                class="bulan-header ${index==0?'active':''}"
+            >
+
+                <span>${bulan}</span>
+
+                <span class="bulan-icon">
+                    ${index==0?'−':'+'}
+                </span>
+
+            </button>
+
+            <div
+                class="bulan-content"
+                style="display:${index==0?'block':'none'}"
+            >
+
                 ${
-                    item["Link"]
-
+                    daftar.length
                     ?
-
-                    `<a
-                        class="kegiatan-link"
-                        href="${item["Link"]}"
-                        target="_blank">
-
-                        Informasi Selengkapnya →
-
-                    </a>`
-
+                    isi
                     :
-
-                    ""
-
+                    `<div class="empty-bulan">
+                        Belum ada kegiatan.
+                    </div>`
                 }
 
             </div>
 
-        </article>
+        </div>
 
         `;
+
+    });
+
+    initAccordion();
+
+}
+function initAccordion(){
+
+    const headers = document.querySelectorAll(".bulan-header");
+
+    headers.forEach(function(header){
+
+        header.addEventListener("click", function(){
+
+            const content = header.nextElementSibling;
+            const icon = header.querySelector(".bulan-icon");
+            const isOpen = header.classList.contains("active");
+
+            // Tutup semua bulan
+            headers.forEach(function(item){
+
+                item.classList.remove("active");
+                item.querySelector(".bulan-icon").textContent = "+";
+                item.nextElementSibling.style.display = "none";
+
+            });
+
+            // Kalau tadi belum terbuka, buka
+            if(!isOpen){
+
+                header.classList.add("active");
+                icon.textContent = "−";
+                content.style.display = "block";
+
+            }
+
+        });
 
     });
 
@@ -204,17 +395,13 @@ function getBadgeClass(status){
 
 function convertDriveImage(url){
 
-    if(!url) return "images/no-image.png";
+    if(!url) return "";
 
-    if(url.includes("drive.google.com")){
+    const match = url.match(/\/d\/([^\/]+)/);
 
-        const match = url.match(/[-\w]{25,}/);
+    if(match){
 
-        if(match){
-
-            return "https://drive.google.com/thumbnail?id="+match[0]+"&sz=w1000";
-
-        }
+        return "https://drive.google.com/thumbnail?id=" + match[1] + "&sz=w1200";
 
     }
 
