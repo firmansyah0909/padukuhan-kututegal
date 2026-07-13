@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detail Kegiatan | Padukuhan Kututegal</title>
+
+    <link rel="stylesheet" href="kegiatan.css">
+    <link rel="stylesheet" href="detail-kegiatan.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="site-header">
+
+        <div class="container header-inner">
+
+            <a class="brand" href="index.html">
+
+                <span class="brand-logo">
+
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M3 3v18h18"/>
+                        <rect x="7" y="10" width="3" height="7"/>
+                        <rect x="12" y="6" width="3" height="11"/>
+                        <rect x="17" y="13" width="3" height="4"/>
+                    </svg>
+
+                </span>
+
+                <span class="brand-text">
+
+                    <span class="brand-title">
+                        PADUKUHAN KUTUTEGAL
+                    </span>
+
+                    <span class="brand-sub">
+                        Dashboard Data Padukuhan
+                    </span>
+
+                </span>
+
+            </a>
+
+            <button
+                id="menuToggle"
+                class="menu-toggle"
+                aria-label="Menu">
+
+                ☰
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <div class="container">
+
+            <a href="kegiatan.html" class="back-button">
+
+                ← Kembali ke Daftar Kegiatan
+
+            </a>
+
+            <article class="detail-card">
+
+                <img
+                    id="detailFoto"
+                    class="detail-image"
+                    src=""
+                    alt="Foto Kegiatan">
+
+                <div class="detail-body">
+
+                    <span
+                        id="detailStatus"
+                        class="badge">
+
+                    </span>
+
+                    <h1 id="detailJudul"></h1>
+
+                    <div class="detail-meta">
+
+                        <p>
+
+                            📅
+                            <span id="detailTanggal"></span>
+
+                        </p>
+
+                        <p>
+
+                            🕒
+                            <span id="detailJam"></span>
+
+                        </p>
+
+                        <p>
+
+                            📍
+                            <span id="detailLokasi"></span>
+
+                        </p>
+
+                        <p>
+
+                            👤
+                            <span id="detailPJ"></span>
+
+                        </p>
+
+                        <p>
+
+                            ☎️
+                            <span id="detailKontak"></span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="detail-deskripsi">
+
+                        <h2>
+
+                            Deskripsi Kegiatan
+
+                        </h2>
+
+                        <p id="detailDeskripsi">
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-inner">
+
+            <div class="footer-info">
+
+                <h2>
+
+                    Padukuhan Kututegal
+
+                </h2>
+
+                <p>
+
+                    Kalurahan Sinduadi,
+                    Kapanewon Mlati,
+                    Kabupaten Sleman,
+                    Daerah Istimewa Yogyakarta
+
+                </p>
+
+                <h3>
+
+                    Kontak
+
+                </h3>
+
+                <p>
+
+                    📧 kknsinduadi11@gmail.com
+
+                </p>
+
+                <p>
+
+                    ☎ 085803719310
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 KKN Universitas Tidar
+
+        </div>
+
+    </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script src="detail-kegiatan.js"></script>
+
+</body>
+</html>

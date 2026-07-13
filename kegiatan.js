@@ -268,7 +268,7 @@ function renderKegiatan(){
                     </div>
 
                     <a
-                        href="${item["Link"]}"
+                        href="detail-kegiatan.html?id=${item["No"]}"
                         class="activity-link"
                         target="_blank"
                     >
