@@ -4,24 +4,103 @@
    GOOGLE SHEETS
 ========================================================== */
 
-const PENDUDUK_CSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1343644530&single=true&output=csv";
+/* ==========================================================
+   MASTER RT
+========================================================== */
 
+const MASTER_RT_CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6Artizks0Ze1NlaZatB_LSsDOdlHXLHlSaAb8ZtFyUR4X6P_fPBkTKeRxgLAT9ozzidjNEh9huPd5/pub?gid=1522488510&single=true&output=csv";
+
+/* ==========================================================
+   BASE URL SEMUA SHEET RT
+========================================================== */
+
+const BASE_RT_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6Artizks0Ze1NlaZatB_LSsDOdlHXLHlSaAb8ZtFyUR4X6P_fPBkTKeRxgLAT9ozzidjNEh9huPd5/pub?gid=";
+
+const BASE_RT_END =
+"&single=true&output=csv";
 const STRUKTUR_CSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1068409205&single=true&output=csv";
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6Artizks0Ze1NlaZatB_LSsDOdlHXLHlSaAb8ZtFyUR4X6P_fPBkTKeRxgLAT9ozzidjNEh9huPd5/pub?gid=95666213&single=true&output=csv";
 
 /* ==========================================================
    GLOBAL
 ========================================================== */
-
 let penduduk=[];
 
 let struktur=[];
 
-const PARAMS=new URLSearchParams(window.location.search);
+let masterRT=[];
 
-const RT=PARAMS.get("rt") || "RT 01";
+const PARAMS = new URLSearchParams(window.location.search);
 
+const RT =
+PARAMS.get("rt") || "RT 01";
+
+const GEN =
+PARAMS.get("gen") || "Semua Generasi";
+
+const JK =
+PARAMS.get("jk") || "Semua";
+
+/* ==========================================================
+   LOAD CSV
+========================================================== */
+
+function loadCSV(url){
+
+    return new Promise(function(resolve,reject){
+
+        Papa.parse(url,{
+
+            download:true,
+
+            header:false,
+
+            skipEmptyLines:true,
+
+            complete:function(result){
+
+                const rows = result.data;
+
+                // Header ada di baris ke-4 (index 3)
+                const header = rows[3];
+
+                // Data mulai dari baris ke-5 (index 4)
+                const data = rows.slice(4);
+
+                const hasil = data.map(function(row){
+
+                    const obj = {};
+
+                    header.forEach(function(col,i){
+
+                        obj[String(col).trim()] =
+                            row[i] !== undefined
+                            ? String(row[i]).trim()
+                            : "";
+
+                    });
+
+                    return obj;
+
+                });
+
+                resolve(hasil);
+
+            },
+
+            error:function(err){
+
+                reject(err);
+
+            }
+
+        });
+
+    });
+
+}
 /* ==========================================================
    LOAD CSV
 ========================================================== */
@@ -51,6 +130,88 @@ function loadCSV(url){
             }
 
         });
+
+    });
+
+}
+
+/* ==========================================================
+   NORMALIZE TEXT
+========================================================== */
+
+function normalize(value){
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+async function loadMasterRT(){
+
+    masterRT = await loadCSV(MASTER_RT_CSV);
+
+}
+async function loadMasterRT(){
+
+    masterRT = await loadCSV(MASTER_RT_CSV);
+
+}
+function getGID(rt){
+
+    const nomor = String(rt)
+        .replace("RT","")
+        .trim();
+
+    const hasil = masterRT.find(function(item){
+
+        return String(item["RT"]).trim() === nomor;
+
+    });
+
+    if(!hasil){
+
+        throw new Error(
+            "RT " + nomor + " tidak ditemukan di MASTER_RT"
+        );
+
+    }
+
+    return hasil["GID"];
+
+}
+async function loadDataRT(rt){
+
+    const gid = getGID(rt);
+
+    console.log("RT :", rt);
+    console.log("GID :", gid);
+
+    const url =
+        BASE_RT_URL +
+        gid +
+        BASE_RT_END;
+
+    console.log("URL :", url);
+
+    const data = await loadCSV(url);
+    console.log("HEADER :", Object.keys(data[0]));
+    console.log("DATA PERTAMA :", data[0]);
+
+    return data.map(function(row){
+
+        const obj={};
+
+        Object.keys(row).forEach(function(key){
+
+            obj[key.trim()] =
+            typeof row[key]==="string"
+                ? row[key].trim()
+                : row[key];
+
+        });
+
+        return obj;
 
     });
 
@@ -92,28 +253,122 @@ async function init(){
 
     try{
 
-        penduduk=await loadCSV(PENDUDUK_CSV);
+        await loadMasterRT();
+                const info = masterRT.find(function(item){
 
-        struktur=await loadCSV(STRUKTUR_CSV);
+            return String(item["RT"]).trim()===
 
-        document.getElementById("rtTitle").textContent=
-        "Dashboard "+RT;
-
-        document.getElementById("rtDesc").textContent=
-        "Informasi lengkap "+RT;
-
-        const dataRT=penduduk.filter(function(item){
-
-            return item["RT"]===RT;
+            RT.replace("RT","").trim();
 
         });
 
-        const strukturRT=struktur.filter(function(item){
+        if(!info){
 
-            return item["RT"]===RT;
+            alert("RT tidak ditemukan.");
+
+            return;
+
+        }
+        penduduk = await loadDataRT(RT);
+
+        console.log("RT :",RT);
+
+        console.log("Jumlah :",penduduk.length);
+
+        console.log(penduduk[0]);
+
+        struktur = await loadCSV(STRUKTUR_CSV);
+        console.log("STRUKTUR");
+        console.log(struktur);
+
+        console.log("STRUKTUR PERTAMA");
+        console.log(struktur[0]);
+
+        let judul =
+        `Dashboard RT ${info["RT"]} / RW ${info["RW"]}`;
+
+        if(GEN !== "Semua Generasi"){
+
+            judul += ` • ${GEN}`;
+
+        }
+
+        if(JK !== "Semua"){
+
+            judul += ` • ${JK}`;
+
+        }
+
+        document.getElementById("rtTitle").textContent = judul;
+
+
+        let desc =
+        `Data kependudukan RT ${info["RT"]} RW ${info["RW"]} Padukuhan Kututegal`;
+
+        if(GEN !== "Semua Generasi"){
+
+            desc += ` | ${GEN}`;
+
+        }
+
+        if(JK !== "Semua"){
+
+            desc += ` | ${JK}`;
+
+        }
+
+        document.getElementById("rtDesc").textContent = desc;
+        const rtNumber = RT
+            .replace("RT","")
+            .trim();
+
+        let dataRT = [...penduduk];
+
+        if(GEN !== "Semua Generasi"){
+
+            dataRT = dataRT.filter(function(item){
+
+                return normalize(item["Generasi"]) ===
+                    normalize(GEN);
+
+            });
+
+        }
+
+        if(JK !== "Semua"){
+
+            dataRT = dataRT.filter(function(item){
+
+                return normalize(item["Jenis Kelamin"]) ===
+                    normalize(JK);
+
+            });
+
+        }
+
+        const strukturRT = struktur.filter(function(item){
+
+            return String(item["RT"]).trim() === rtNumber;
 
         });
 
+        console.log("RT URL =", RT);
+        console.log("RT Number =", rtNumber);
+        console.log("Jumlah Struktur =", strukturRT.length);
+        console.log("Struktur RT =", strukturRT);
+        if(dataRT.length===0){
+
+        renderStruktur(strukturRT);
+
+        document.getElementById("rtStats").innerHTML=
+        "<p style='text-align:center'>Tidak ada data sesuai filter.</p>";
+
+        document.getElementById("chart").innerHTML=
+        "<p style='text-align:center'>Tidak ada data grafik.</p>";
+
+        return;
+
+    }
         renderStruktur(strukturRT);
 
         renderStats(dataRT);
@@ -228,17 +483,23 @@ function renderStats(data){
 
     const total=data.length;
 
-    const laki=data.filter(
-        d=>d["Jenis Kelamin"]==="Laki-laki"
-    ).length;
+    const laki=data.filter(function(d){
 
-    const perempuan=data.filter(
-        d=>d["Jenis Kelamin"]==="Perempuan"
-    ).length;
+        return normalize(d["Jenis Kelamin"])==="laki-laki";
 
-    const kk=data.filter(
-        d=>d["Status Keluarga"]==="Kepala Keluarga"
-    ).length;
+    }).length;
+
+    const perempuan=data.filter(function(d){
+
+        return normalize(d["Jenis Kelamin"])==="perempuan";
+
+    }).length;
+
+    const kk=data.filter(function(d){
+
+        return normalize(d["Status Keluarga"])==="kepala keluarga";
+
+    }).length;
 
     stats.innerHTML=`
 
@@ -341,6 +602,21 @@ function renderStats(data){
 function renderChart(data){
 
     const chart=document.getElementById("chart");
+    if(!data.length){
+
+    chart.innerHTML=`
+
+        <p style="text-align:center">
+
+            Tidak ada data penduduk.
+
+        </p>
+
+    `;
+
+    return;
+
+}
 
     if(!chart) return;
 
@@ -348,7 +624,7 @@ function renderChart(data){
 
     data.forEach(function(item){
 
-        const gen=item["Generasi"];
+        const gen=(item["Generasi"] || "-").trim();
 
         if(!hasil[gen]){
 
@@ -362,11 +638,14 @@ function renderChart(data){
 
         }
 
-        if(item["Jenis Kelamin"]==="Laki-laki"){
+           const jk = normalize(item["Jenis Kelamin"]);
+
+        if(jk==="laki-laki"){
 
             hasil[gen].laki++;
 
-        }else{
+        }
+        else if(jk==="perempuan"){
 
             hasil[gen].perempuan++;
 
@@ -374,19 +653,27 @@ function renderChart(data){
 
     });
 
-    const max=Math.max(
+const values = Object.values(hasil).flatMap(function(v){
 
-        ...Object.values(hasil).flatMap(v=>[
+    return [
 
-            v.laki,
+        v.laki,
 
-            v.perempuan
+        v.perempuan
 
-        ])
+    ];
 
-    );
+});
 
-    chart.innerHTML=Object.entries(hasil).map(([gen,val])=>`
+const max = values.length > 0
+
+    ? Math.max(...values)
+
+    : 1;
+
+chart.innerHTML = Object.entries(hasil).map(function([gen,val]){
+
+    return `
 
         <div class="chart-group">
 
@@ -430,6 +717,7 @@ function renderChart(data){
 
         </div>
 
-    `).join("");
+    `;
 
+}).join("");
 }

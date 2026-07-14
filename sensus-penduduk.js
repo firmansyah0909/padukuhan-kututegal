@@ -1,17 +1,33 @@
 "use strict";
 
 /* ==========================================================
-   GOOGLE SHEET
+   MASTER RT
 ========================================================== */
 
-const SHEET_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vShayysmkyOCfvsNT57xbQw_ofl_mEnXXHcr6V4jxSTSFA0FeAopKuV-mTBeXa9jxwGcWMfCCZdZ8Us/pub?gid=1343644530&single=true&output=csv";
+const MASTER_RT_CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6Artizks0Ze1NlaZatB_LSsDOdlHXLHlSaAb8ZtFyUR4X6P_fPBkTKeRxgLAT9ozzidjNEh9huPd5/pub?gid=1522488510&single=true&output=csv";
+
+/* ==========================================================
+   BASE SHEET RT
+========================================================== */
+
+const BASE_SHEET =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6Artizks0Ze1NlaZatB_LSsDOdlHXLHlSaAb8ZtFyUR4X6P_fPBkTKeRxgLAT9ozzidjNEh9huPd5/pub?gid=";
+
+const SHEET_END =
+"&single=true&output=csv";
 
 /* ==========================================================
    GLOBAL
 ========================================================== */
 
 let PENDUDUK = [];
+
+let MASTER_RT=[];
+
+let CURRENT_RT="";
+
+let CURRENT_GID="";
 
 /* ==========================================================
    ICON
@@ -39,6 +55,39 @@ const ICONS = {
 function fmt(value){
 
     return Number(value).toLocaleString("id-ID");
+
+}
+/* ==========================================================
+   LOAD CSV
+========================================================== */
+
+function loadCSV(url){
+
+    return new Promise(function(resolve,reject){
+
+        Papa.parse(url,{
+
+            download:true,
+
+            header:true,
+
+            skipEmptyLines:true,
+
+            complete:function(result){
+
+                resolve(result.data);
+
+            },
+
+            error:function(err){
+
+                reject(err);
+
+            }
+
+        });
+
+    });
 
 }
 
@@ -77,15 +126,131 @@ function loadData(){
 
         complete:function(result){
 
-            PENDUDUK = result.data;
+           PENDUDUK = result.data;
 
-            console.log("DATA :",PENDUDUK);
+            console.log("DATA :", PENDUDUK);
+
+            console.log(PENDUDUK[0]);
+
+            console.log(Object.keys(PENDUDUK[0]));
 
             initFilter();
 
-            renderTopics();
+            // Hapus baris ini
+            // renderTopics();
 
             renderAll(PENDUDUK);
+
+        }
+
+    });
+
+}
+async function loadMasterRT(){
+
+    MASTER_RT = await loadCSV(MASTER_RT_CSV);
+
+    fillSelect(
+        "filterRt",
+        MASTER_RT.map(function(item){
+            return "RT " + item["RT"];
+        }),
+        "Pilih RT"
+    );
+
+    initFilter();
+
+    initRTEvent();
+    await loadAllRT();
+
+    // ============================
+    // Load RT pertama saat halaman dibuka
+    // ============================
+
+}
+async function loadAllRT(){
+
+    const semuaData = [];
+
+    const promises = MASTER_RT.map(async function(item){
+
+        const url =
+            BASE_SHEET +
+            item["GID"] +
+            SHEET_END;
+
+        const data = await loadCSV(url);
+
+        semuaData.push(...data);
+
+    });
+
+    await Promise.all(promises);
+
+    PENDUDUK = semuaData;
+
+    initFilter();
+
+    renderAll(PENDUDUK);
+
+}
+function getGID(rt){
+
+    const nomor =
+
+    rt.replace("RT","")
+
+    .trim();
+
+    const hasil =
+
+    MASTER_RT.find(function(item){
+
+        return String(item["RT"])===nomor;
+
+    });
+
+    if(!hasil){
+
+        return "";
+
+    }
+
+    return hasil["GID"];
+
+}
+async function loadRT(rt){
+
+    CURRENT_RT = rt;
+
+    CURRENT_GID = getGID(rt);
+
+    const url =
+        BASE_SHEET +
+        CURRENT_GID +
+        SHEET_END;
+
+    Papa.parse(url,{
+
+        download:true,
+
+        header:true,
+
+        skipEmptyLines:true,
+
+        complete:function(result){
+
+            PENDUDUK = result.data;
+
+            initFilter();
+
+            renderAll(getFilteredData());
+
+        },
+
+        error:function(err){
+
+            console.error(err);
 
         }
 
@@ -129,22 +294,41 @@ function fillSelect(id, data, firstText){
 function initFilter(){
 
     fillSelect(
-        "filterRt",
-        PENDUDUK.map(p=>p["RT"]),
-        "Semua RT"
-    );
-
-    fillSelect(
         "filterGen",
-        PENDUDUK.map(p=>p["Generasi"]),
+        [
+            "Baby Boomer",
+            "Generasi X",
+            "Generasi X / Millennial",
+            "Millennial",
+            "Generasi Z",
+            "Generasi Alpha"
+        ],
         "Semua Generasi"
     );
 
     fillSelect(
         "filterJk",
-        PENDUDUK.map(p=>p["Jenis Kelamin"]),
+        [
+            "Laki-laki",
+            "Perempuan"
+        ],
         "Semua"
     );
+
+}
+function initRTEvent(){
+
+    const rt = document.getElementById("filterRt");
+
+    if(!rt) return;
+
+    rt.onchange = function(){
+
+        if(this.value==="Pilih RT") return;
+
+        loadRT(this.value);
+
+    };
 
 }
 
@@ -153,9 +337,6 @@ function initFilter(){
 ========================================================== */
 
 function getFilteredData(){
-
-    const rt =
-    document.getElementById("filterRt").value;
 
     const gen =
     document.getElementById("filterGen").value;
@@ -166,11 +347,6 @@ function getFilteredData(){
     return PENDUDUK.filter(function(p){
 
         return(
-
-            (rt==="Semua RT" ||
-            p["RT"]===rt)
-
-            &&
 
             (gen==="Semua Generasi" ||
             p["Generasi"]===gen)
@@ -190,36 +366,35 @@ function getFilteredData(){
    BUTTON TERAPKAN
 ========================================================== */
 
-document.addEventListener(
+document.addEventListener("click", function(e){
 
-    "click",
+    if(e.target.id !== "applyBtn") return;
 
-    function(e){
+    const rt = document.getElementById("filterRt").value;
+    const gen = document.getElementById("filterGen").value;
+    const jk = document.getElementById("filterJk").value;
 
-    if(e.target.id==="applyBtn"){
+    // Jika memilih RT tertentu, buka halaman RT Detail
+    if(rt !== "Semua RT"){
 
-        const rt=document.getElementById("filterRt").value;
+        let url = `rt-detail.html?rt=${encodeURIComponent(rt)}`;
 
-        if(rt==="Semua RT"){
-
-            renderAll(
-
-                getFilteredData()
-
-            );
-
-        }else{
-
-            window.location.href=
-            `rt-detail.html?rt=${encodeURIComponent(rt)}`;
-
+        if(gen !== "Semua Generasi"){
+            url += `&gen=${encodeURIComponent(gen)}`;
         }
 
+        if(jk !== "Semua"){
+            url += `&jk=${encodeURIComponent(jk)}`;
+        }
+
+        window.location.href = url;
+        return;
     }
 
-}
+    // Jika memilih Semua RT tetap tampilkan statistik di halaman ini
+    renderAll(getFilteredData());
 
-);
+});
 
 /* ==========================================================
    STATISTIK
@@ -471,7 +646,7 @@ function renderChart(data){
 
 function renderAll(data){
 
-    renderTopics();
+    renderTopics(data);
 
     renderStats(data);
 
@@ -535,29 +710,6 @@ const TOPICS = [
 },
 
 {
-    title:"Disabilitas",
-    icon:`
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="4" r="2"/>
-        <path d="M12 6v6"/>
-        <circle cx="12" cy="15" r="5"/>
-    </svg>
-    `,
-    field:"Disabilitas"
-},
-
-{
-    title:"Perumahan",
-    icon:`
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 10l9-7 9 7"/>
-        <path d="M5 10v10h14V10"/>
-    </svg>
-    `,
-    field:"Status Rumah"
-},
-
-{
     title:"Kelahiran",
     icon:`
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -569,27 +721,17 @@ const TOPICS = [
     field:"Kelahiran"
 },
 
-{
-    title:"Kematian",
-    icon:`
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 3v18"/>
-        <path d="M8 7h8"/>
-        <path d="M7 21h10"/>
-    </svg>
-    `,
-    field:"Kematian"
-}
-
 ];
 
 /* ==========================================================
    RENDER TOPIK
 ========================================================== */
 
-function renderTopics(){
+function renderTopics(data){
 
     const grid = document.getElementById("topicsGrid");
+   console.log("GRID =", grid);
+    console.log("DATA =", data.length);
 
     if(!grid) return;
 
@@ -598,16 +740,22 @@ function renderTopics(){
     TOPICS.forEach(function(item){
 
         const jumlahKategori = new Set(
-            PENDUDUK
-            .map(p=>p[item.field])
-            .filter(v=>v && v!=="")
+
+            data
+                .map(function(p){
+                    return p[item.field];
+                })
+                .filter(function(v){
+                    return v && String(v).trim() !== "";
+                })
+
         ).size;
 
-        const card=document.createElement("div");
+        const card = document.createElement("div");
 
-        card.className="topic-card";
+        card.className = "topic-card";
 
-        card.innerHTML=`
+        card.innerHTML = `
 
             <div class="topic-icon">
 
@@ -629,9 +777,9 @@ function renderTopics(){
 
         `;
 
-        card.onclick=function(){
+        card.onclick = function(){
 
-            openTopic(item);
+            openTopic(item, data);
 
         };
 
@@ -640,12 +788,11 @@ function renderTopics(){
     });
 
 }
-
 /* ==========================================================
    MODAL
 ========================================================== */
 
-function openTopic(topic){
+function openTopic(topic, data){
 
     const modal=document.getElementById("topicModal");
 
@@ -659,11 +806,16 @@ function openTopic(topic){
 
     const hasil={};
 
-    PENDUDUK.forEach(function(p){
+    data.forEach(function(p){
 
-        const key=p[topic.field] || "-";
+        let key = p[topic.field] || "-";
 
-        hasil[key]=(hasil[key]||0)+1;
+        // Khusus data kelahiran, ambil hanya nama tempat
+        if(topic.field === "Kelahiran" && key !== "-"){
+            key = key.split(",")[0].trim();
+        }
+
+        hasil[key] = (hasil[key] || 0) + 1;
 
     });
 
@@ -719,9 +871,12 @@ function openTopic(topic){
 
     `;
 
-    body.innerHTML=html;
+body.innerHTML = html;
 
-    modal.hidden=false;
+modal.hidden = false;
+
+// Kunci scroll halaman
+document.body.style.overflow = "hidden";
 
 }
 
@@ -731,9 +886,9 @@ function openTopic(topic){
 
 document.addEventListener("click",function(e){
 
-    if(e.target.hasAttribute("data-close")){
+    if(e.target.matches("[data-close]")){
 
-        document.getElementById("topicModal").hidden=true;
+        document.getElementById("topicModal").hidden = true;
 
     }
 
@@ -746,7 +901,7 @@ document.addEventListener("DOMContentLoaded",function(){
 
     initMenu();
 
-    loadData();
+    loadMasterRT();
 
 });
 
@@ -770,23 +925,6 @@ document.addEventListener("keydown",function(e){
 
 });
 
-/* ==========================================================
-   KLIK DI LUAR MODAL
-========================================================== */
-
-window.addEventListener("click",function(e){
-
-    const modal=document.getElementById("topicModal");
-
-    if(!modal) return;
-
-    if(e.target===modal){
-
-        modal.hidden=true;
-
-    }
-
-});
 
 /* ==========================================================
    RESIZE CHART
