@@ -759,9 +759,10 @@ align-items:flex-start;
 @media(min-width:1024px){
 
 .container{
-
-max-width:1200px;
-
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:0 32px;
 }
 
 .card{
@@ -894,5 +895,75 @@ transform:translateY(0);
     color:#ffffff;
 
     stroke:#ffffff;
+
+}
+/* ==========================================================
+   KODE FIX: FOTO PROFIL MEPEEET LURUS KE KANAN TANPA DIAKAS
+========================================================== */
+@media (min-width: 768px) {
+  /* 1. Paksa wadah gambar agar menempel di sisi kanan kartu */
+  .hero-art {
+    margin-left: auto !important;
+    margin-right: -24px !important; /* Nilai minus ini menarik gambar pas ke border kanan kartu */
+  }
+
+  /* 2. Mengunci ukuran gambar bawaan kamu agar tetap konsisten */
+  .hero-art img {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+/* ===========================
+   DESKTOP
+=========================== */
+
+@media (min-width:1024px){
+
+    .main .container{
+        max-width:1400px;
+    }
+
+    .hero{
+        display:grid;
+        grid-template-columns:1.2fr 1fr;
+        align-items:center;
+        gap:70px;
+
+        padding:60px;
+    }
+
+    .hero-title{
+        font-size:58px;
+        line-height:1.15;
+    }
+
+    .hero-desc{
+        font-size:20px;
+        line-height:1.9;
+        margin-top:24px;
+    }
+
+    .hero-art{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+
+    .hero-art img{
+        width:100%;
+        max-width:560px;
+        aspect-ratio:16/9;
+        object-fit:cover;
+        border-radius:20px;
+    }
+
+    .card{
+        padding:40px;
+    }
+
+    .card-body{
+        font-size:18px;
+        line-height:1.9;
+    }
 
 }

@@ -1018,3 +1018,44 @@ img {
     background:#fff;
     color:#2b3175;
 }
+.pengumuman-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:24px;
+}
+
+.pengumuman-card{
+    background:#fff;
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.pengumuman-card:hover{
+    transform:translateY(-5px);
+}
+
+.pengumuman-badge{
+    display:inline-block;
+    background:#e3f2fd;
+    color:#1565c0;
+    padding:6px 14px;
+    border-radius:20px;
+    font-weight:600;
+    margin-bottom:14px;
+}
+
+.pengumuman-title{
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.pengumuman-meta{
+    color:#777;
+    margin-bottom:16px;
+}
+
+.pengumuman-desc{
+    line-height:1.8;
+}

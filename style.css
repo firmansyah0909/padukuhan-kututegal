@@ -261,10 +261,14 @@ img {
   flex-direction: column;
 }
 
-.activity-media {
-  position: relative;
-  height: 176px;
-  width: 100%;
+/* =======================================================
+   MENURUNKAN GAMBAR PROFIL AGAR JARAK ATAS-BAWAH SEIMBANG
+======================================================= */
+@media (min-width: 1024px) {
+  .activity-media img {
+    /* Menggeser gambar turun 12px ke bawah */
+    margin-top: 25px !important;
+  }
 }
 
 .activity-media img {
