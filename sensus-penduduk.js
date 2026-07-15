@@ -1,5 +1,4 @@
 "use strict";
-
 /* ==========================================================
    MASTER RT
 ========================================================== */
@@ -28,6 +27,8 @@ let MASTER_RT=[];
 let CURRENT_RT="";
 
 let CURRENT_GID="";
+
+const CACHE_RT = {};
 
 /* ==========================================================
    ICON
@@ -185,13 +186,25 @@ async function loadAllRT(){
 
     });
 
-    await Promise.all(promises);
+        await Promise.all(promises);
 
-    PENDUDUK = semuaData;
+        PENDUDUK = semuaData;
 
-    initFilter();
+        console.log("Jumlah data =", PENDUDUK.length);
 
-    renderAll(PENDUDUK);
+        console.log(
+            "Jenis Kelamin =",
+            [...new Set(PENDUDUK.map(x => x["Jenis Kelamin"]))]
+        );
+
+        console.log(
+            "Generasi =",
+            [...new Set(PENDUDUK.map(x => x["Generasi"]))]
+        );
+
+        initFilter();
+
+        renderAll(PENDUDUK);
 
 }
 function getGID(rt){
@@ -221,6 +234,17 @@ function getGID(rt){
 }
 async function loadRT(rt){
 
+    // Kalau sudah pernah didownload, pakai cache
+    if(CACHE_RT[rt]){
+
+        PENDUDUK = CACHE_RT[rt];
+
+        renderAll(getFilteredData());
+
+        return;
+
+    }
+
     CURRENT_RT = rt;
 
     CURRENT_GID = getGID(rt);
@@ -239,6 +263,9 @@ async function loadRT(rt){
         skipEmptyLines:true,
 
         complete:function(result){
+
+            // Simpan ke cache
+            CACHE_RT[rt] = result.data;
 
             PENDUDUK = result.data;
 
@@ -318,18 +345,6 @@ function initFilter(){
 }
 function initRTEvent(){
 
-    const rt = document.getElementById("filterRt");
-
-    if(!rt) return;
-
-    rt.onchange = function(){
-
-        if(this.value==="Pilih RT") return;
-
-        loadRT(this.value);
-
-    };
-
 }
 
 /* ==========================================================
@@ -375,7 +390,7 @@ document.addEventListener("click", function(e){
     const jk = document.getElementById("filterJk").value;
 
     // Jika memilih RT tertentu, buka halaman RT Detail
-    if(rt !== "Semua RT"){
+    if(rt !== "Pilih RT"){
 
         let url = `rt-detail.html?rt=${encodeURIComponent(rt)}`;
 
@@ -406,134 +421,363 @@ function renderStats(data){
 
     const laki = data.filter(function(p){
 
-        return p["Jenis Kelamin"]==="Laki-laki";
+        const jk = String(p["Jenis Kelamin"] || "")
+            .trim()
+            .toLowerCase();
+
+        return jk === "laki-laki" ||
+               jk === "laki laki";
 
     }).length;
 
     const perempuan = data.filter(function(p){
 
-        return p["Jenis Kelamin"]==="Perempuan";
+        const jk = String(p["Jenis Kelamin"] || "")
+            .trim()
+            .toLowerCase();
+
+        return jk === "perempuan";
 
     }).length;
 
     const kk = data.filter(function(p){
 
-        return p["Status Keluarga"]==="Kepala Keluarga";
+        const status = String(p["Status Keluarga"] || "")
+            .trim()
+            .toLowerCase();
+
+        return status === "kepala keluarga";
 
     }).length;
 
-    const stats =
-    document.getElementById("censusStats");
+    const stats = document.getElementById("censusStats");
 
     if(!stats) return;
 
-    stats.innerHTML=`
+    stats.innerHTML = `
 
 <div class="stat-card">
 
-<div class="stat-icon">
+    <div class="stat-icon">${ICONS.users}</div>
 
-${ICONS.users}
+    <div>
 
-</div>
+        <div class="stat-label">Total Penduduk</div>
 
-<div>
+        <div class="stat-value">${fmt(total)}</div>
 
-<div class="stat-label">
-
-Total Penduduk
-
-</div>
-
-<div class="stat-value">
-
-${fmt(total)}
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <div class="stat-card">
 
-<div class="stat-icon">
+    <div class="stat-icon">${ICONS.male}</div>
 
-${ICONS.male}
+    <div>
 
-</div>
+        <div class="stat-label">Laki-laki</div>
 
-<div>
+        <div class="stat-value">${fmt(laki)}</div>
 
-<div class="stat-label">
-
-Laki-laki
-
-</div>
-
-<div class="stat-value">
-
-${fmt(laki)}
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <div class="stat-card">
 
-<div class="stat-icon">
+    <div class="stat-icon">${ICONS.female}</div>
 
-${ICONS.female}
+    <div>
 
-</div>
+        <div class="stat-label">Perempuan</div>
 
-<div>
+        <div class="stat-value">${fmt(perempuan)}</div>
 
-<div class="stat-label">
-
-Perempuan
-
-</div>
-
-<div class="stat-value">
-
-${fmt(perempuan)}
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <div class="stat-card">
 
-<div class="stat-icon">
+    <div class="stat-icon">${ICONS.family}</div>
 
-${ICONS.family}
+    <div>
 
-</div>
+        <div class="stat-label">Kepala Keluarga</div>
 
-<div>
+        <div class="stat-value">${fmt(kk)}</div>
 
-<div class="stat-label">
-
-Kepala Keluarga
-
-</div>
-
-<div class="stat-value">
-
-${fmt(kk)}
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 `;
+
+}
+function normalisasiGenerasi(gen){
+
+    gen = String(gen || "")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/\s*\/\s*/g, " / ")
+        .replace(/\s*-\s*/g, "-");
+
+    if(gen === "") return "";
+
+    // ===========================
+    // Silent Generation
+    // ===========================
+
+    if(gen.includes("pre-boomer")){
+        return "Silent Generation";
+    }
+
+    if(gen === "silent generation"){
+        return "Silent Generation";
+    }
+
+    // ===========================
+    // Baby Boomers
+    // ===========================
+
+    if(gen.includes("baby boomer")){
+        return "Baby Boomers";
+    }
+
+    // ===========================
+    // Generasi X
+    // ===========================
+
+    if(
+        gen === "generasi x" ||
+        gen === "gen x"
+    ){
+        return "Generasi X";
+    }
+
+    // ===========================
+    // Generasi X / Millennial
+    // ===========================
+
+    if(
+        gen.includes("x / millennial") ||
+        gen.includes("x/millennial") ||
+        gen.includes("x / milenial") ||
+        gen.includes("x/milenial") ||
+        gen.includes("x-millennial")
+    ){
+        return "Generasi X / Millennial";
+    }
+
+    // ===========================
+    // Millennial
+    // ===========================
+
+    if(
+        gen.includes("generasi y") ||
+        gen.includes("generasi milenial") ||
+        gen.includes("generasi millenial") ||
+        gen === "milenial" ||
+        gen === "millenial" ||
+        gen === "millennial"
+    ){
+        return "Millennial";
+    }
+
+    // ===========================
+    // Generasi Z
+    // ===========================
+
+    if(
+        gen === "gen z" ||
+        gen === "generasi z"
+    ){
+        return "Generasi Z";
+    }
+
+    // ===========================
+    // Generasi Alpha
+    // ===========================
+
+    if(
+        gen === "gen alpha" ||
+        gen === "generasi alpha"
+    ){
+        return "Generasi Alpha";
+    }
+
+    // ===========================
+    // Generasi Beta
+    // ===========================
+
+    if(
+        gen === "gen beta" ||
+        gen === "generasi beta"
+    ){
+        return "Generasi Beta";
+    }
+
+    return "";
+}
+function normalisasiTopik(field, value){
+
+    let key = String(value || "").trim();
+
+    /* ===============================
+       JENIS KELAMIN
+    ============================== */
+
+    if(field === "Jenis Kelamin"){
+
+        const jk = key.toLowerCase();
+
+        if(jk === "laki-laki" || jk === "laki laki"){
+
+            return "Laki-laki";
+
+        }
+
+        if(jk === "perempuan"){
+
+            return "Perempuan";
+
+        }
+
+        return "-";
+
+    }
+
+    /* ===============================
+       STATUS KELUARGA
+    ============================== */
+
+    if(field === "Status Keluarga"){
+
+        const sk = key.toLowerCase();
+
+        switch(sk){
+
+            case "kepala keluarga":
+                return "Kepala Keluarga";
+
+            case "istri":
+            case "isteri":
+                return "Istri";
+
+            case "anak":
+                return "Anak";
+
+            case "cucu":
+                return "Cucu";
+
+            case "mertua":
+                return "Mertua";
+
+            case "orang tua":
+                return "Orang Tua";
+
+            case "famili lain":
+                return "Famili Lain";
+
+            case "pembantu":
+                return "Pembantu";
+
+            case "sita / sederajat":
+                return "SLTA / Sederajat";
+
+            default:
+                return key.replace(/\b\w/g,c=>c.toUpperCase());
+
+        }
+
+    }
+
+    /* ===============================
+       PENDIDIKAN
+    ============================== */
+
+    if(field === "Pendidikan"){
+
+        const p = key.toLowerCase();
+
+        switch(p){
+
+            case "":
+                return "-";
+
+            case "belum sekolah":
+                return "Belum Sekolah";
+
+            case "belum tamat sd":
+                return "Belum Tamat SD";
+
+            case "belum tamat sd/sederajat":
+            case "belum tamat sd / sederajat":
+            case "blm tamat sd/sederajat":
+                return "Belum Tamat SD / Sederajat";
+
+            case "slta/sederajat":
+            case "slta sederajat":
+            case "slta / sederajat":
+                return "SLTA / Sederajat";
+
+            case "sltp/sederajat":
+            case "sltp / sederajat":
+                return "SLTP / Sederajat";
+
+            case "sd/sederajat":
+            case "sd / sederajat":
+                return "SD / Sederajat";
+
+            case "diploma i/ii":
+            case "diploma i / ii":
+                return "Diploma I / II";
+
+            case "diploma iii":
+                return "Diploma III";
+
+            case "diploma iv/strata i":
+            case "diploma iv / strata i":
+                return "Diploma IV / Strata I";
+
+            case "akademi/diploma iii/sarjana muda":
+            case "akademi / diploma iii / sarjana muda":
+                return "Akademi / Diploma III / Sarjana Muda";
+
+            default:
+                return key.replace(/\b\w/g,c=>c.toUpperCase());
+
+        }
+
+    }
+
+    /* ===============================
+       KELAHIRAN
+    ============================== */
+
+    if(field==="Kelahiran"){
+
+        if(!key) return "-";
+
+        return key.split(",")[0].trim();
+
+    }
+
+    /* ===============================
+       MOBILITAS
+    ============================== */
+
+    if(field==="Mobilitas"){
+
+        if(!key) return "-";
+
+        return key.toUpperCase();
+
+    }
+
+    return key;
 
 }
 /* ==========================================================
@@ -545,15 +789,39 @@ function renderChart(data){
     const chart = document.getElementById("chart");
 
     if(!chart) return;
+    const cekJK = {};
+
+data.forEach(function(item){
+
+    const jk = String(item["Jenis Kelamin"] || "").trim();
+
+    cekJK[jk] = (cekJK[jk] || 0) + 1;
+
+});
+
+console.table(cekJK);
 
     const genMap = {};
 
-    data.forEach(item=>{
+    data.forEach(function(item){
 
-        const gen=item["Generasi"];
-        const jk=item["Jenis Kelamin"];
+    console.log(
+        "GEN =", item["Generasi"],
+        "| JK =", item["Jenis Kelamin"]
+    );
 
-        if(!gen || !jk) return;
+    const gen = normalisasiGenerasi(item["Generasi"]);
+    const jk = normalisasiTopik(
+        "Jenis Kelamin",
+        item["Jenis Kelamin"]
+    );
+    console.log(
+    item["Generasi"],
+    "=>",
+    gen
+);
+
+        if(gen === "" || jk === "-") return;
 
         if(!genMap[gen]){
 
@@ -575,8 +843,74 @@ function renderChart(data){
         }
 
     });
+    const beta = data.filter(item =>
+    normalisasiGenerasi(item["Generasi"]) === "Generasi Beta"
+);
 
-    const entries=Object.entries(genMap);
+console.table(beta);
+
+       const urutan = [
+    "Silent Generation",
+    "Baby Boomers",
+    "Generasi X",
+    "Generasi X / Millennial",
+    "Millennial",
+    "Generasi Z",
+    "Generasi Alpha",
+    "Generasi Beta"
+];
+    let kosong = 0;
+
+    data.forEach(function(item){
+
+        const gen = String(item["Generasi"] || "").trim();
+
+        if(gen === ""){
+
+            kosong++;
+
+        }
+
+    });
+
+    console.log("Generasi kosong =", kosong);
+
+    const tidakMasuk = data.filter(function(item){
+
+        const gen = normalisasiGenerasi(item["Generasi"]);
+        const jk = normalisasiTopik(
+            "Jenis Kelamin",
+            item["Jenis Kelamin"]
+        );
+
+        return (
+            !urutan.includes(gen) ||
+            (jk !== "Laki-laki" && jk !== "Perempuan")
+        );
+
+    });
+
+    console.table(tidakMasuk);
+    console.log("Tidak masuk =", tidakMasuk.length);
+    const entries = urutan
+    .filter(nama => genMap[nama])
+    .map(nama => [nama, genMap[nama]]);
+    let totalGrafik = 0;
+
+    entries.forEach(([nama, v]) => {
+
+        console.log(
+            nama,
+            "L =", v.laki,
+            "P =", v.perempuan,
+            "Total =", v.laki + v.perempuan
+        );
+
+        totalGrafik += v.laki + v.perempuan;
+
+    });
+
+    console.log("TOTAL GRAFIK =", totalGrafik);
 
     if(entries.length===0){
 
@@ -596,48 +930,62 @@ function renderChart(data){
 
     });
 
-    chart.innerHTML=entries.map(([nama,v])=>`
+entries.forEach(([_, v]) => {
+    totalGrafik += v.laki + v.perempuan;
+});
 
-        <div class="chart-group">
+console.log("TOTAL GRAFIK =", totalGrafik);
+console.log("TOTAL DATA =", data.length);
+    chart.innerHTML = entries.map(([nama,v]) => `
 
-            <div class="gen">
+<div class="chart-group">
 
-                ${nama}
+    <div class="gen">
+        ${nama}
+    </div>
 
-            </div>
+    <div class="bars">
 
-            <div class="bars">
+        <div class="bar-track">
+           <div class="bar-track">
 
-                <div class="bar-track">
+                <div
+                    class="bar-fill male"
+                    style="width:${(v.laki/max)*100}%">
 
-                    <div
-                        class="bar-fill male"
-                        style="width:${(v.laki/max)*100}%">
-
-                        ${v.laki}
-
-                    </div>
-
-                </div>
-
-                <div class="bar-track">
-
-                    <div
-                        class="bar-fill female"
-                        style="width:${(v.perempuan/max)*100}%">
-
-                        ${v.perempuan}
-
-                    </div>
+                    ${(v.laki/max)*100 > 15 ? v.laki : ""}
 
                 </div>
 
-            </div>
+                ${(v.laki/max)*100 <= 15
+                    ? `<span class="bar-value">${v.laki}</span>`
+                    : ""}
 
+            </div>
         </div>
 
-    `).join("");
+       <div class="bar-track">
 
+                <div
+                    class="bar-fill female"
+                    style="width:${(v.perempuan/max)*100}%">
+
+                    ${(v.perempuan/max)*100 > 15 ? v.perempuan : ""}
+
+                </div>
+
+                ${(v.perempuan/max)*100 <= 15
+                    ? `<span class="bar-value">${v.perempuan}</span>`
+                    : ""}
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+`).join("");
 }
 
 /* ==========================================================
@@ -739,17 +1087,18 @@ function renderTopics(data){
 
     TOPICS.forEach(function(item){
 
-        const jumlahKategori = new Set(
+       const jumlahKategori = new Set(
 
-            data
-                .map(function(p){
-                    return p[item.field];
-                })
-                .filter(function(v){
-                    return v && String(v).trim() !== "";
-                })
+        data.map(function(p){
 
-        ).size;
+            return normalisasiTopik(
+                item.field,
+                p[item.field]
+            );
+
+        })
+
+    ).size;
 
         const card = document.createElement("div");
 
@@ -788,6 +1137,7 @@ function renderTopics(data){
     });
 
 }
+
 /* ==========================================================
    MODAL
 ========================================================== */
@@ -806,18 +1156,19 @@ function openTopic(topic, data){
 
     const hasil={};
 
-    data.forEach(function(p){
+data.forEach(function(p){
 
-        let key = p[topic.field] || "-";
+    const key = normalisasiTopik(
 
-        // Khusus data kelahiran, ambil hanya nama tempat
-        if(topic.field === "Kelahiran" && key !== "-"){
-            key = key.split(",")[0].trim();
-        }
+        topic.field,
 
-        hasil[key] = (hasil[key] || 0) + 1;
+        p[topic.field]
 
-    });
+    );
+
+    hasil[key] = (hasil[key] || 0) + 1;
+
+});
 
     let html=`
 
@@ -920,23 +1271,6 @@ document.addEventListener("keydown",function(e){
             modal.hidden=true;
 
         }
-
-    }
-
-});
-
-
-/* ==========================================================
-   RESIZE CHART
-========================================================== */
-
-window.addEventListener("resize",function(){
-
-    if(!PENDUDUK.length) return;
-
-    if(pendudukChart){
-
-        pendudukChart.resize();
 
     }
 

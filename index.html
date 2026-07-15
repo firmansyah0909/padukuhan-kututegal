@@ -48,7 +48,7 @@
       <main class="main">
         <div class="container">
           <div class="page-head">
-            <h1 class="page-title">Selamat Datang di Dashboard Padukuhan Kutu Tegal</h1>
+            <h1 class="page-title">Selamat Datang di Dashboard Padukuhan KutuTegal</h1>
             <p class="page-desc">
               Pusat data dan layanan informasi kependudukan, kegiatan, dan pengumuman padukuhan.
             </p>
@@ -58,6 +58,14 @@
             <!-- Left: activity + stats -->
             <section>
               <h2 class="section-label">Profil Padukuhan</h2>
+                  <style>
+                    #activityCard img {
+                        width: 100% !important;
+                        height: auto !important; /* Menghapus tinggi kaku agar tidak nge-zoom */
+                        aspect-ratio: 16 / 9 !important; /* Mengikuti rasio halaman profil */
+                        object-fit: cover !important; 
+                    }
+                  </style>
                 <article class="activity-card" id="activityCard">
 
                 </article>

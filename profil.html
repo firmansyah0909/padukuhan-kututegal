@@ -205,7 +205,36 @@ Pengumuman
 <!-- =========================
      HERO PROFIL
 ========================== -->
+    <style>
+    /* Menargetkan gambar balai di bagian hero profil */
+    .hero-art img#profilFoto {
+        width: 100% !important;
+        height: auto !important; /* Mencegah gambar ditarik vertikal (portrait) */
+        aspect-ratio: 16 / 9 !important; /* Memaksa proporsi lebar horizontal 16:9 */
+        object-fit: cover !important; /* Menjaga isi foto tetap presisi tanpa gepeng */
+        border-radius: 16px !important; /* Agar sudut melengkung estetik seperti di gambar */
+    }
 
+    /* Penyesuaian responsivitas layout pembungkusnya di HP */
+    @media (max-width: 768px) {
+        .hero {
+            display: flex !important;
+            flex-direction: column !important; /* Menata teks di atas, foto di bawah */
+            gap: 16px !important;
+        }
+        .hero-art {
+            width: 100% !important;
+            height: auto !important;
+        }
+    }
+</style>
+
+<section class="hero">
+    <div class="hero-text">
+        <span class="hero-eyebrow">
+            🏡 Profil Padukuhan
+        </span>
+        ...
 <section class="hero">
 
     <div class="hero-text">
@@ -439,7 +468,7 @@ Pengumuman
 
                         </svg>
 
-                        0858xxxxxxxx
+                        085803719310
 
                     </li>
 
