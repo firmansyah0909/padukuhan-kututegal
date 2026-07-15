@@ -153,12 +153,13 @@ async function loadMasterRT(){
 
     fillSelect(
         "filterRt",
-        MASTER_RT.map(function(item){
-            return "RT " + item["RT"];
-        }),
+        [...MASTER_RT]
+            .sort((a, b) => Number(a["RT"]) - Number(b["RT"]))
+            .map(function(item){
+                return "RT " + item["RT"];
+            }),
         "Pilih RT"
     );
-
     initFilter();
 
     initRTEvent();
@@ -303,7 +304,6 @@ function fillSelect(id, data, firstText){
 
     [...new Set(data)]
     .filter(v => v && v.trim() !== "")
-    .sort()
     .forEach(function(item){
 
         const option = document.createElement("option");
